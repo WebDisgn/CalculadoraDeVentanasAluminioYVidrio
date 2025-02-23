@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculos de Ventanas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        #totales {
+            text-align: right;
+            font-weight: bold;
+        }
+        #totales td {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Calculadora de Ventanas</h1>
+
+<table id="tabla-calculos">
+    <thead>
+        <tr>
+            <th>Ancho (m)</th>
+            <th>Alto (m)</th>
+            <th>Área (m²)</th>
+            <th>Riel (m)</th>
+            <th>Jamba (m)</th>
+            <th>Vertical (m)</th>
+            <th>Horizontal (m)</th>
+            <th>Malla Corrediza Ancho (m)</th>
+            <th>Malla Corrediza Alto (m)</th>
+            <th>Vidrio Ancho (m)</th>
+            <th>Vidrio Alto (m)</th>
+            <th>Seguros (u)</th>
+            <th>Ruedas (u)</th>
+            <th>Esquineros (u)</th>
+            <th>Felpa (m)</th>
+            <th>Tornillos 8*1/2 (u)</th>
+            <th>Tornillos 8*2 (u)</th>
+            <th>Vinil Ventana 4mm</th>
+            <th>Vinil Piola</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Las filas con cálculos se agregarán aquí -->
+    </tbody>
+    <tfoot>
+        <tr id="totales">
+            <td colspan="2">Totales:</td>
+            <td id="total-area">0 m²</td>
+            <td id="total-riel">0 m</td>
+            <td id="total-jamba">0 m</td>
+            <td id="total-vertical">0 m</td>
+            <th id="total-horizontal">0 m</th>
+            <th id="total-mallaAncho">0 m</th>
+            <th id="total-mallaAlto">0 m</th>
+            <th id="total-vidrioAncho">0 m</th>
+            <th id="total-vidrioAlto">0 m</th>
+            <th id="total-seguros">0 u</th>
+            <th id="total-ruedas">0 u</th>
+            
+        </tr>
+    </tfoot>
+</table>
+
+<button id="agregar-fila">Agregar Ventana</button>
+<button id="calcular-todo">Calcular Todos</button>
+
+
+<script src="main.js"></script>
+
+</body>
+</html>
