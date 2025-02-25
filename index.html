@@ -23,7 +23,19 @@
         #totales td {
             background-color: #f0f0f0;
         }
+        
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px; /* Separación entre planchas */
+        }
+        canvas {
+            border: 1px solid black;
+        }
+        
     </style>
+    
 </head>
 <body>
 
@@ -78,9 +90,20 @@
 
 <button id="agregar-fila">Agregar Ventana</button>
 <button id="calcular-todo">Calcular Todos</button>
+<br>
+<button class="vidrioVentana">Generar Distribución</button>
+<a href="src/vidrio.html">vidrios</a>
+<br>
+<a href="index.html">refrescar</a>
 
+
+
+<div class="canvas-container">
+    <canvas class="canvas"></canvas>
+</div>
+<div class="containerJSON"></div>
 
 <script src="main.js"></script>
-
+<script src="js/vidriero.js"></script>
 </body>
 </html>
