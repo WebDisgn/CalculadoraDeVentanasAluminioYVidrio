@@ -47,8 +47,8 @@
 <h1>Calculadora de Ventanas</h1>
 <div class="table-responsive">
 <table class="table table-success table-striped" id="tabla-calculos">
-    <thead>
-        <tr class="table-info">
+  <thead>
+        <tr class="table-primary" style="height: 60px;">
             <th>Ancho (m)</th>
             <th>Alto (m)</th>
             <th>Área (m²)</th>
@@ -75,7 +75,7 @@
         <!-- Las filas con cálculos se agregarán aquí -->
     </tbody>
     <tfoot>
-        <tr id="totales">
+        <tr id="totales" class="table-warning">
             <td colspan="2">Totales:</td>
             <td id="total-area">0 m²</td>
             <td id="total-riel">0 m</td>
@@ -93,15 +93,14 @@
     </tfoot>
 </table>
 </div>
+<div class="d-flex justify-content-center align-items-center" style="height: 60px;">
 <button id="agregar-fila" class="btn btn-primary m-2">Agregar Ventana</button>
 <button id="calcular-todo" class="btn btn-success m-2">Calcular Todos</button>
-<br>
 <button class="btn btn-success m-2 vidrioVentana">Generar Distribución</button>
-<a href="src/vidrio.html">vidrios</a>
-<br>
-<a href="index.html">refrescar</a>
+<a class="sr-only sr-only-focusable m-2" href="src/vidrio.html">vidrios</a>
+<a class="sr-only sr-only-focusable m-2" href="index.html">refrescar</a>
 
-
+</div>
 
 <div class="canvas-container">
     <canvas class="canvas"></canvas>

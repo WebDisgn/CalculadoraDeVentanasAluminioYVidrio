@@ -2,20 +2,18 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-table, th, td {
-    border: 1px solid black;
-}
+
 th, td {
     padding: 10px;
-    text-align: center;
+    text-align: left;
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    width: auto !important;
 }
 #totales {
-    text-align: right;
+    text-align: left;
     font-weight: bold;
 }
-#totales td {
-    background-color: #f0f0f0;
-}
+
 
 .canvas-container {
     display: flex;
@@ -23,9 +21,7 @@ th, td {
     align-items: center;
     gap: 30px; /* Separación entre planchas */
 }
-canvas {
-    border: 1px solid black;
-}
+
 
 .bd-placeholder-img {
     font-size: 1.125rem;
