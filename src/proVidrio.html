@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizador de Vidrios con Inputs Dinámicos</title>
+    <link rel="stylesheet" href="../css/proVidrio.css">
+</head>
+<body>
+    <h1>Organizador de Vidrios con Inputs Dinámicos</h1>
+    <div class="container">
+        <!-- Formulario para ingresar vidrios -->
+        <div class="form-container">
+            <h2>Agregar Vidrio</h2>
+            <label for="ancho">Ancho (cm):</label>
+            <input type="number" id="ancho" step="0.01" min="1" required>
+            <label for="alto">Alto (cm):</label>
+            <input type="number" id="alto" step="0.01" min="1" required>
+            <button onclick="agregarVidrio()">Agregar Vidrio</button>
+
+            <!-- Botones para modificar y eliminar -->
+            <div class="botones">
+                <button onclick="modificarVidrio()" disabled id="btnModificar">Modificar Vidrio</button>
+                <button onclick="eliminarVidrio()" disabled id="btnEliminar">Eliminar Vidrio</button>
+            </div>
+
+            <!-- Inputs dinámicos para cada vidrio -->
+            <div id="vidrio-inputs" class="vidrio-inputs"></div>
+        </div>
+
+        <!-- Canvas para dibujar los vidrios y el residuo -->
+        <div class="canvas-container">
+            <canvas id="canvasPadre" width="660" height="428"></canvas>
+        </div>
+    </div>
+
+    <script src="../js/proVidrio.js">
+
+    </script>
+</body>
+</html>

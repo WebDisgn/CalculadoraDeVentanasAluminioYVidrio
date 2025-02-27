@@ -4,46 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculos de Ventanas</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
-        #totales {
-            text-align: right;
-            font-weight: bold;
-        }
-        #totales td {
-            background-color: #f0f0f0;
-        }
-        
-        .canvas-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px; /* Separación entre planchas */
-        }
-        canvas {
-            border: 1px solid black;
-        }
-        
-    </style>
-    
+   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
+    <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Never expand</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarsExample01">
+            <ul class="navbar-nav me-auto mb-2">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form>
+              <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            </form>
+          </div>
+        </div>
+      </nav>
+
+
 
 <h1>Calculadora de Ventanas</h1>
-
-<table id="tabla-calculos">
+<div class="table-responsive">
+<table class="table table-success table-striped" id="tabla-calculos">
     <thead>
-        <tr>
+        <tr class="table-info">
             <th>Ancho (m)</th>
             <th>Alto (m)</th>
             <th>Área (m²)</th>
@@ -87,11 +92,11 @@
         </tr>
     </tfoot>
 </table>
-
-<button id="agregar-fila">Agregar Ventana</button>
-<button id="calcular-todo">Calcular Todos</button>
+</div>
+<button id="agregar-fila" class="btn btn-primary m-2">Agregar Ventana</button>
+<button id="calcular-todo" class="btn btn-success m-2">Calcular Todos</button>
 <br>
-<button class="vidrioVentana">Generar Distribución</button>
+<button class="btn btn-success m-2 vidrioVentana">Generar Distribución</button>
 <a href="src/vidrio.html">vidrios</a>
 <br>
 <a href="index.html">refrescar</a>
@@ -105,5 +110,6 @@
 
 <script src="main.js"></script>
 <script src="js/vidriero.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

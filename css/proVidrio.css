@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.container {
+    display: flex;
+    gap: 20px;
+}
+.form-container {
+    width: 330px;
+}
+.canvas-container {
+    border: 1px solid #000;
+    position: relative;
+}
+canvas {
+    border: 1px solid #000;
+}
+.botones {
+    margin-top: 10px;
+}
+.vidrio-inputs {
+    margin-top: 10px;
+}

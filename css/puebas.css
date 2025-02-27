@@ -1,0 +1,25 @@
+#canvas {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 330px;
+    height: 214px;
+    position: relative;
+    border: 1px solid #b71313;
+    overflow: hidden; /* Esto asegura que el canvas no se desborde fuera del contenedor */
+}
+
+canvas {
+    position: absolute;
+    
+    cursor: move;
+}
+.acotacion {
+    position: absolute;
+    font-size: 12px;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2px;
+    border-radius: 2px;
+}
+

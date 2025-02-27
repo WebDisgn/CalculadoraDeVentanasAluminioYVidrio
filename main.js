@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="vinil">0 m</td>
             <td class="vinilPiola">0 m</td>
             <td>
-                <button class="calcular">Calcular</button>
-                <button class="limpiar">Limpiar</button>
-                <button class="eliminar">eliminar</button>
+                <button class="btn btn-info calcular">Calcular</button>
+                <br>
+                <button class="btn btn-warning eliminar">eliminar</button>
             </td>
         `;
     });
