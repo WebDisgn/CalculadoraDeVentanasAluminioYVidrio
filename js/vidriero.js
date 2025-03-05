@@ -164,8 +164,8 @@ function generarDistribucion() {
         const alto = fila.querySelector("td.vidrioAlto")?.textContent.trim();
 
         if (ancho && alto) {
-            const anchoCm = parseFloat(ancho.replace("m", "").trim()) * 100;
-            const altoCm = parseFloat(alto.replace("m", "").trim()) * 100;
+            const anchoCm = parseFloat(ancho.replace("m", "").trim());
+            const altoCm = parseFloat(alto.replace("m", "").trim());
 
             // Agregar dos unidades de cada vidrio
             vidriero.push({
