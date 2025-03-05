@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ladrillos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        canvas {
+            border: 1px solid rgb(239, 32, 32);
+            margin-top: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Calculadora de Ladrillos</h1>
+
+<form id="formPared">
+    <label for="ancho">Ancho de la pared (cm):</label>
+    <input type="number" id="ancho" step="1" required>
+    
+    <label for="alto">Alto de la pared (cm):</label>
+    <input type="number" id="alto" step="1" required>
+    
+    <label for="grosor">Grosor de línea (cm):</label>
+    <input type="number" id="grosor" step="0.1" required>
+    
+    <label for="anchoLadrillo">Ancho del ladrillo (cm):</label>
+    <input type="number" id="anchoLadrillo" step="0.1" required>
+    
+    <label for="altoLadrillo">Alto del ladrillo (cm):</label>
+    <input type="number" id="altoLadrillo" step="0.1" required>
+    
+    <button type="button" onclick="agregarPared()">Agregar Pared</button>
+</form>
+
+<h2>Lista de Paredes</h2>
+<table id="tablaParedes">
+    <thead>
+        <tr>
+            <th>Ancho (cm)</th>
+            <th>Alto (cm)</th>
+            <th>Grosor (cm)</th>
+            <th>Ancho Ladrillo (cm)</th>
+            <th>Alto Ladrillo (cm)</th>
+            <th>Ladrillos</th>
+            <th>Cemento (kg)</th>
+            <th>Arena (kg)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div id="contenedorCanvas"></div>
+
+<script>
+    class Pared {
+        constructor(ancho, alto, grosor, anchoLadrillo, altoLadrillo) {
+            this.ancho = ancho; // en centímetros
+            this.alto = alto; // en centímetros
+            this.grosor = grosor; // en centímetros
+            this.anchoLadrillo = anchoLadrillo; // en centímetros
+            this.altoLadrillo = altoLadrillo; // en centímetros
+        }
+
+        // Método para calcular la cantidad de ladrillos
+        calcularLadrillos() {
+            const areaPared = this.ancho * this.alto; // Área en cm²
+            const areaLadrillo = this.anchoLadrillo * this.altoLadrillo; // Área de un ladrillo en cm²
+            return Math.ceil(areaPared / areaLadrillo);
+        }
+
+        // Método para calcular la cantidad de cemento
+        calcularCemento() {
+            const volumenConcreto = this.ancho * this.alto * this.grosor; // Volumen en cm³
+            const cementoPorCmCubico = 0.0003; // kg de cemento por cm³ de concreto
+            return Math.ceil(volumenConcreto * cementoPorCmCubico);
+        }
+
+        // Método para calcular la cantidad de arena
+        calcularArena() {
+            const volumenConcreto = this.ancho * this.alto * this.grosor; // Volumen en cm³
+            const arenaPorCmCubico = 0.0006; // kg de arena por cm³ de concreto
+            return Math.ceil(volumenConcreto * arenaPorCmCubico);
+        }
+    }
+
+    let paredes = [];
+    let contadorLadrillos = 0;
+
+    function agregarPared() {
+        const ancho = parseFloat(document.getElementById('ancho').value);
+        const alto = parseFloat(document.getElementById('alto').value);
+        const grosor = parseFloat(document.getElementById('grosor').value);
+        const anchoLadrillo = parseFloat(document.getElementById('anchoLadrillo').value);
+        const altoLadrillo = parseFloat(document.getElementById('altoLadrillo').value);
+
+        const pared = new Pared(ancho, alto, grosor, anchoLadrillo, altoLadrillo);
+        paredes.push(pared);
+
+        actualizarTabla();
+        dibujarPared(pared);
+    }
+
+    function actualizarTabla() {
+        const tbody = document.querySelector('#tablaParedes tbody');
+        tbody.innerHTML = '';
+
+        paredes.forEach((pared, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${pared.ancho}</td>
+                <td>${pared.alto}</td>
+                <td>${pared.grosor}</td>
+                <td>${pared.anchoLadrillo}</td>
+                <td>${pared.altoLadrillo}</td>
+                <td>${pared.calcularLadrillos()}</td>
+                <td>${pared.calcularCemento()}</td>
+                <td>${pared.calcularArena()}</td>
+                <td>
+                    <button onclick="editarPared(${index})">Editar</button>
+                    <button onclick="eliminarPared(${index})">Eliminar</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function editarPared(index) {
+        const pared = paredes[index];
+        document.getElementById('ancho').value = pared.ancho;
+        document.getElementById('alto').value = pared.alto;
+        document.getElementById('grosor').value = pared.grosor;
+        document.getElementById('anchoLadrillo').value = pared.anchoLadrillo;
+        document.getElementById('altoLadrillo').value = pared.altoLadrillo;
+
+        paredes.splice(index, 1);
+        actualizarTabla();
+        redibujarTodasLasParedes();
+    }
+
+    function eliminarPared(index) {
+        paredes.splice(index, 1);
+        actualizarTabla();
+        redibujarTodasLasParedes();
+    }
+
+    function dibujarPared(pared) {
+        const contenedorCanvas = document.getElementById('contenedorCanvas');
+        const canvas = document.createElement('canvas');
+        canvas.width = pared.ancho + 100; // Margen para las acotaciones
+        canvas.height = pared.alto + 100; // Margen para las acotaciones
+        contenedorCanvas.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        dibujarUnaPared(ctx, pared);
+    }
+
+    function dibujarUnaPared(ctx, pared) {
+        const anchoPx = pared.ancho; // 1 cm = 1 píxel
+        const altoPx = pared.alto; // 1 cm = 1 píxel
+
+        // Dibujar la pared con concreto (gris)
+        ctx.fillStyle = '#cccccc'; // Gris para el concreto
+        ctx.fillRect(50, 50, anchoPx, altoPx);
+
+        // Tamaño de un ladrillo en píxeles
+        const ladrilloAncho = pared.anchoLadrillo; // en píxeles (1 cm = 1 píxel)
+        const ladrilloAlto = pared.altoLadrillo; // en píxeles (1 cm = 1 píxel)
+
+        // Dibujar los ladrillos en un patrón alternado
+        let offsetLadrilloX = 0;
+        for (let y = 50; y < 50 + altoPx; y += ladrilloAlto) {
+            for (let x = 50 + offsetLadrilloX; x < 50 + anchoPx; x += ladrilloAncho) {
+                ctx.fillStyle = '#ff8c42'; // Naranja para los ladrillos
+                ctx.fillRect(x, y, ladrilloAncho, ladrilloAlto);
+                ctx.strokeStyle = '#000';
+                ctx.strokeRect(x, y, ladrilloAncho, ladrilloAlto);
+
+                // Numerar los ladrillos
+                ctx.fillStyle = '#000';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(++contadorLadrillos, x + ladrilloAncho / 2, y + ladrilloAlto / 2 + 5);
+            }
+            // Alternar el desplazamiento en cada fila
+            offsetLadrilloX = offsetLadrilloX === 0 ? ladrilloAncho / 2 : 0;
+        }
+
+        // Dibujar acotaciones (medidas)
+        dibujarAcotaciones(ctx, 50, 50, anchoPx, altoPx);
+    }
+
+    function dibujarAcotaciones(ctx, x, y, ancho, alto) {
+        // Acotación para el ancho
+        ctx.strokeStyle = '#000';
+        ctx.beginPath();
+        ctx.moveTo(x, y + alto + 20);
+        ctx.lineTo(x + ancho, y + alto + 20);
+        ctx.moveTo(x, y + alto + 15);
+        ctx.lineTo(x, y + alto + 25);
+        ctx.moveTo(x + ancho, y + alto + 15);
+        ctx.lineTo(x + ancho, y + alto + 25);
+        ctx.stroke();
+
+        ctx.fillStyle = '#000';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${ancho} cm`, x + ancho / 2, y + alto + 35);
+
+        // Acotación para el alto
+        ctx.beginPath();
+        ctx.moveTo(x - 20, y);
+        ctx.lineTo(x - 20, y + alto);
+        ctx.moveTo(x - 25, y);
+        ctx.lineTo(x - 15, y);
+        ctx.moveTo(x - 25, y + alto);
+        ctx.lineTo(x - 15, y + alto);
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(x - 40, y + alto / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText(`${alto} cm`, 0, 0);
+        ctx.restore();
+    }
+
+    function redibujarTodasLasParedes() {
+        const contenedorCanvas = document.getElementById('contenedorCanvas');
+        contenedorCanvas.innerHTML = ''; // Limpiar todos los canvas
+        contadorLadrillos = 0; // Reiniciar el contador de ladrillos
+
+        paredes.forEach((pared) => {
+            dibujarPared(pared);
+        });
+    }
+</script>
+
+</body>
+</html>
