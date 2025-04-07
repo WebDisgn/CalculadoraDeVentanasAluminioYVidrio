@@ -36,3 +36,9 @@ th, td {
       font-size: 3.5rem;
     }
   }
+
+  #vertical{
+    background-image: url(../images/Sin\ título.png);
+    background-size: cover;
+    
+  }
