@@ -36,9 +36,86 @@ th, td {
       font-size: 3.5rem;
     }
   }
+#ancho{
+  background-image: url(../images/ancho.jpg);
+  background-size: cover;
+}
+#alto{
+  background-image: url(../images/alto.jpg);
+  background-size: cover;
+}
+#metroCuadrado{
+  background-image: url(../images/metroCuadrado.jpg);
+  background-size: cover;
+}
+
+  #riel{
+    background-image: url(../images/riel.jpg);
+    background-size: cover;
+  }
+#jamba{
+  background-image: url(../images/jamba.jpg);
+  background-size: cover;
+}
+
 
   #vertical{
-    background-image: url(../images/Sin\ título.png);
+    background-image: url(../images/vertical.jpg);
     background-size: cover;
     
   }
+
+  #horizontal{
+    background-image: url(../images/horizontal.jpg);
+    background-size: cover;
+  }
+
+  #mallaCorrediza{
+    background-image: url(../images/mallaCorrediza.jpg);
+    background-size: cover;
+  }
+#vidrio{
+  background-image: url(../images/vidrio.jpg);
+  background-size: cover;
+}
+#seguro{
+  background-image: url(../images/seguro.jpg);
+  background-size: cover;
+}
+#ruedas{
+  background: url(../images/ruedas.jpg);
+  background-size: cover;
+}
+#esquinero{
+  background-image: url(../images/esquinero.jpg);
+  background-size: cover;
+}
+#tornillo{
+  background-image: url(../images/tornillos8_2.jpg);
+  background-size: cover;
+}
+#tornillo8_1_2{
+  background-image: url(../images/tornillos8_1_2.jpg);
+  background-size: cover;
+}
+#vinil{
+  background-image: url(../images/vinil.jpg);
+  background-size: cover;
+}
+#piola{
+  background-image: url(../images/piola.jpg);
+  background-size: cover;
+}
+#tacos{
+  background-image: url(../images/tacos.jpg);
+  background-size: cover;
+}
+#felpa{
+  background-image: url(../images/felpa.jpg);
+  background-size: cover;
+}
+
+#acciones{
+  background-image: url(../images/accion.jpg);
+  background-size: cover;
+}
