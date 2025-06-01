@@ -1,150 +1,347 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management</title>
-   <link rel="stylesheet" href="css/style.css">
-   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma de Gestión Inteligente</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
+
 <body>
-    <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="https://www.google.com.ec/?hl=es">DonPercha</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-    
-          <div class="collapse navbar-collapse" id="navbarsExample01">
-            <ul class="navbar-nav me-auto mb-2">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="src/vidrio.html">Vidrios</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="src/proVidrio.html">Pro Vidrios</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Otros Servicios</a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                  <li><a class="dropdown-item" href="Puertas/puertas.html">Puertas</a></li>
-                  <li><a class="dropdown-item" href="Pared/pared.html">Pared Ladrillos</a></li>
-                  <li><a class="dropdown-item" href="https://app.sketchup.com/app?_gl=1*lkmn35*_gcl_au*MjA2OTQ4MzU1OS4xNzM2NTUyOTA5">Modelador3d</a></li>
-                </ul>
+  <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="https://www.google.com.ec/?hl=es">DonPercha</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01"
+        aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav me-auto mb-2">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="src/vidrio.html">Vidrios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="src/proVidrio.html">Pro Vidrios</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown"
+              aria-expanded="false">Otros Servicios</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown01">
+              <li><a class="dropdown-item" href="Puertas/puertas.html">Puertas</a></li>
+              <li><a class="dropdown-item" href="Pared/pared.html">Pared Ladrillos</a></li>
+              <li><a class="dropdown-item"
+                  href="https://app.sketchup.com/app?_gl=1*lkmn35*_gcl_au*MjA2OTQ4MzU1OS4xNzM2NTUyOTA5">Modelador3d</a>
               </li>
             </ul>
-            <form>
-              <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            </form>
-          </div>
-        </div>
-      </nav>
+          </li>
+        </ul>
+        <form>
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+  </nav>
 
 
-
-<h1>Calculadora de Ventanas</h1>
-<div class="table-responsive">
-<table class="table table-success table-striped" id="tabla-calculos">
-  <thead>
-    <tr class="table-primary" style="height: 60px;">
-      <th id="ancho"></th>
-      <th id="alto"></th>
-      <th id="metroCuadrado"></th>
-      <th id="riel"></th>
-      <th id="jamba"></th>
-      <th id="vertical"></th>
-      <th id="horizontal"></th>
-      <th id="mallaCorrediza"></th>
-      <th id="mallaCorrediza"></th>
-      <th id="vidrio"></th>
-      <th id="vidrio"></th>
-      <th id="seguro"></th>
-      <th id="ruedas"></th>
-      <th id="esquinero"></th>
-      <th id="felpa"></th>
-      <th id="tornillo"></th>
-      <th id="tornillo8_1_2"></th>
-      <th id="vinil"></th>
-      <th id="piola"></th>
-      <th id="tacos"></th>
-      <th id="acciones"></th>
-  </tr>
+<!-- TABLA PRINCIPAL-->
+  <h1>Ventanas de Aluminio Y Vidrio</h1>
+  <div class="table-responsive">
+    <table class="table table-success table-striped" id="tabla-calculos">
+      <thead>
         <tr class="table-primary" style="height: 60px;">
-            <th>Ancho (cm)</th>
-            <th>Alto (cm)</th>
-            <th>Área (m²)</th>
-            <th>Riel (cm)    </th>
-            <th>Jamba (cm)   </th>
-            <th>Vertical (cm)</th>
-            <th>Horizontal  </th>
-            <th>MallaC Ancho</th>
-            <th>MallaC Alto</th>
-            <th>Vidrio Ancho</th>
-            <th>Vidrio Alto</th>
-            <th>Seguros</th>
-            <th>Ruedas</th>
-            <th>Esquineros</th>
-            <th>Felpa (cm)</th>
-            <th>Tornillos 8*1/2</th>
-            <th>Tornillos 8*2</th>
-            <th>Vinil Vent</th>
-            <th>Vinil Piola</th>
-            <th>Tacos Fish</th>
-            <th>Acciones</th>
+          <th id="ancho"></th>
+          <th id="alto"></th>
+          <th id="metroCuadrado"></th>
+          <th id="riel"></th>
+          <th id="jamba"></th>
+          <th id="vertical"></th>
+          <th id="horizontal"></th>
+          <th id="mallaCorrediza"></th>
+          <th id="mallaCorrediza"></th>
+          <th id="vidrio"></th>
+          <th id="vidrio"></th>
+          <th id="seguro"></th>
+          <th id="ruedas"></th>
+          <th id="esquinero"></th>
+          <th id="felpa"></th>
+          <th id="tornillo"></th>
+          <th id="tornillo8_1_2"></th>
+          <th id="vinil"></th>
+          <th id="piola"></th>
+          <th id="tacos"></th>
+          <th id="acciones"></th>
         </tr>
-    </thead>
-    <tbody>
+        <tr class="table-primary" style="height: 60px;">
+          <th>Ancho (cm)</th>
+          <th>Alto (cm)</th>
+          <th>Área (m²)</th>
+          <th>Riel (cm) </th>
+          <th>Jamba (cm) </th>
+          <th>Vertical (cm)</th>
+          <th>Horizontal </th>
+          <th>MallaC Ancho</th>
+          <th>MallaC Alto</th>
+          <th>Vidrio Ancho</th>
+          <th>Vidrio Alto</th>
+          <th>Seguros</th>
+          <th>Ruedas</th>
+          <th>Esquineros</th>
+          <th>Felpa (cm)</th>
+          <th>Tornillos 8*1/2</th>
+          <th>Tornillos 8*2</th>
+          <th>Vinil Vent</th>
+          <th>Vinil Piola</th>
+          <th>Tacos Fish</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
         <!-- Las filas con cálculos se agregarán aquí -->
-    </tbody>
-    <tfoot>
+      </tbody>
+      <tfoot>
         <tr id="totales" class="table-warning">
-            <td colspan="2">Totales:</td>
-            <td id="total-area">0 m²</td>
-            <td id="total-riel">0 cm</td>
-            <td id="total-jamba">0 cm</td>
-            <td id="total-vertical">0 cm</td>
-            <th id="total-horizontal">0 cm</th>
-            <th id="total-mallaAncho">0 cm</th>
-            <th id="total-mallaAlto">0 cm</th>
-            <th id="total-vidrioAncho">0 cm</th>
-            <th id="total-vidrioAlto">0 cm</th>
-            <th id="total-seguros">0 u</th>
-            <th id="total-ruedas">0 u</th>
-            <th id="total-esquineros">0 u</th>
-            <th id="total-felpa">0 cm</th>
-            <th id="total-tornillosMedia">0 u</th>
-            <th id="total-tornillosDosPulgadas">0 u</th>
-            <th id="total-vinil">0 cm</th>
-            <th id="total-piola">0 cm</th>
-            <th id="total-tacosFish">0 u</th>
+          <td colspan="2">Totales:</td>
+          <td id="total-area">0 m²</td>
+          <td id="total-riel">0 cm</td>
+          <td id="total-jamba">0 cm</td>
+          <td id="total-vertical">0 cm</td>
+          <th id="total-horizontal">0 cm</th>
+          <th id="total-mallaAncho">0 cm</th>
+          <th id="total-mallaAlto">0 cm</th>
+          <th id="total-vidrioAncho">0 cm</th>
+          <th id="total-vidrioAlto">0 cm</th>
+          <th id="total-seguros">0 u</th>
+          <th id="total-ruedas">0 u</th>
+          <th id="total-esquineros">0 u</th>
+          <th id="total-felpa">0 cm</th>
+          <th id="total-tornillosMedia">0 u</th>
+          <th id="total-tornillosDosPulgadas">0 u</th>
+          <th id="total-vinil">0 cm</th>
+          <th id="total-piola">0 cm</th>
+          <th id="total-tacosFish">0 u</th>
 
-            
+
         </tr>
-    </tfoot>
-</table>
-</div>
-<div class="d-flex justify-content-center align-items-center" style="height: 60px;">
-<button id="agregar-fila" class="btn btn-primary m-2">Agregar Ventana</button>
-<button id="calcular-todo" class="btn btn-success m-2">Calcular Todos</button>
-<button class="btn btn-success m-2 vidrioVentana">Generar Distribución</button>
-<a class="sr-only sr-only-focusable m-2" href="src/vidrio.html">vidrios</a>
-<a class="sr-only sr-only-focusable m-2" href="index.html">refrescar</a>
+      </tfoot>
+    </table>
+  </div>
+  <div class="d-flex justify-content-center align-items-center" style="height: 60px;">
+    <button id="agregar-fila" class="btn btn-primary m-2">Agregar Ventana</button>
+    <button id="calcular-todo" class="btn btn-success m-2">Calcular Todos</button>
+    <button class="btn btn-success m-2 vidrioVentana">Generar Distribución</button>
+    <a class="sr-only sr-only-focusable m-2" href="src/vidrio.html">vidrios</a>
+    <a class="sr-only sr-only-focusable m-2" href="index.html">refrescar</a>
 
-</div>
+  </div>
 
-<div class="canvas-container">
+  <div class="canvas-container">
     <canvas class="canvas"></canvas>
-</div>
-<div class="containerJSON"></div>
+  </div>
 
-<div>
-  <iframe src="pdf/plegable-web-2-0_compressed.pdf" width="100%" height="800" frameborder="0"></iframe>
+
+  <div>
+  <input list="color" id="aluminioColor" placeholder="Selecciona un Color...">
+<datalist id="color">
+  <option value="blanco">Blanco</option>
+  <option value="negro">Negro</option>
+  <option value="bronce">Bronce</option>
+  <option value="natural">Natural</option>
+</datalist>
 </div>
 
-<script src="main.js"></script>
-<script src="js/vidriero.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
+
+  <div id="factura">
+    <table class="table table-success table-striped">
+      <thead>
+        <tr>
+          <th>codigo</th>
+          <th>Descripcion</th>
+          <th>cantidad</th>
+          <th>precio</th>
+          <th>Total</th>
+        </tr>
+
+      </thead>
+      <tbody id="materiales">
+
+        <tr>
+          <td>1523</td>
+          <td>Riel Sup E inf estandar</td>
+          <td id="riel_l"></td>
+          <td id="precio_riel">28</td>
+          <td id="riel_t"></td>
+        </tr>
+        <tr>
+          <td>1523R</td>
+          <td>Riel Sup E inf estandar retazo cm</td>
+          <td id="riel_r"></td>
+          <td id="precio_riel_r">35</td>
+          <td id="riel_rt"></td>
+        </tr>
+
+
+
+        <tr>
+          <td>
+            1823
+          </td>
+          <td>Jamba marco estandar</td>
+          <td id="jamba_l"></td>
+          <td id="precio_jamba">26</td>
+          <td id="jamba_t"></td>
+        </tr>
+        <tr>
+          <td>1823R</td>
+          <td>Jamba Marco Retazo</td>
+          <td id="jamba_r"></td>
+          <td id="precio_jamba_r">40</td>
+          <td id="jamba_rt"></td>
+        </tr>
+        <tr>
+
+          <td>
+            1283
+          </td>
+          <td>Vertical estandar</td>
+          <td id="vertical_l"></td>
+          <td id="precio_vertical">25</td>
+          <td id="vertical_t"></td>
+        </tr>
+        <tr>
+          <td>
+            1283R
+          </td>
+          <td>Vertical Retazo</td>
+          <td id="vertical_r"></td>
+          <td id="precio_vertical_r">35</td>
+          <td id="vertical_rt"></td>
+        </tr>
+
+        <td>
+          1671
+        </td>
+        <td>Horizontal estandar</td>
+        <td id="horizontal_l"></td>
+        <td id="precio_horizontal">25</td>
+        <td id="horizontal_t"></td>
+        </tr>
+        <tr>
+          <td>
+            1671R
+          </td>
+          <td>Horizontal Retazo</td>
+          <td id="horizontal_r"></td>
+          <td id="precio_horizontal_r">35</td>
+          <td id="horizontal_rt"></td>
+        </tr>
+        <tr>
+          <td>2331</td>
+          <td>Malla Corrediza</td>
+          <td id="malla_corrediza_l"></td>
+          <td id="precio_malla_corrediza">25$</td>
+          <td id="malla_corrediza_t"></td>
+        </tr>
+        <tr>
+          <td>2331R</td>
+          <td>Malla Corrediza Retazo</td>
+          <td id="malla_corrediza_r"></td>
+          <td id="precio_malla_corrediza_r">35$</td>
+          <td id="malla_corrediza_rt"></td>
+        </tr>
+
+        <tr>
+          <td>SGEP</td>
+          <td>Seguro Push</td>
+          <td id="seguro_cantidad_t"></td>
+          <td id="precio_seguro_unidad">1$</td>
+          <td id="precio_seguro_t"></td>
+
+        </tr>
+        <tr>
+          <td>RUEG</td>
+          <td>Ruedas para Ventana</td>
+          <td id="rueda_cantidad_t"></td>
+          <td id="precio_rueda_unidad">0.75 USD</td>
+          <td id="precio_rueda_t"></td>
+        </tr>
+        <tr>
+          <td>ESQI</td>
+          <td>Esquineros</td>
+          <td id="esquinero_cantidad_t"></td>
+          <td id="precio_esquinero_unidad">0.35 USD</td>
+          <td id="precio_esquinero_t"></td>
+        </tr>
+        <tr>
+          <td>FLPA</td>
+          <td>Felpa</td>
+          <td id="felpa_cantidad_t"></td>
+          <td id="precio_felpa_cm">0.01 USD</td>
+          <td id="precio_felpa_t"></td>
+        </tr>
+        <!-- HTML TORNILLOS 8*1/2 -->
+        <tr>
+          <td>TOR0.5</td>
+          <td>Tornillos 8*1/2</td>
+          <td id="tornillos_media_t"></td>
+          <td id="precio_tornillos_media">0.05 USD</td>
+          <td id="precio_tornillo_media_t"></td>
+        </tr>
+        <tr>
+          <td>TOR2</td>
+          <td>Tornillos 8*2</td>
+          <td id="tornillos_cantidad_t"></td>
+          <td id="precio_tornillo">0.05 USD</td>
+          <td id="precio_tornillo_t"></td>
+        </tr>
+        
+        <tr>
+          <td>VINIL</td>
+          <td>Vinil Empaque</td>
+          <td id="vinil_cantidad_t"></td>
+          <td id="precio_vinil">5 USD</td>
+          <td id="precio_vinil_t"></td>
+        </tr>
+        <tr>
+          <td>PIOL</td>
+          <td>Vinil Piola</td>
+          <td id="piola_cantidad_t"></td>
+          <td id="precio_piola">5 USD</td>
+          <td id="precio_piola_t"></td>
+        </tr>
+        <tr>
+          <td>TACOS6</td>
+          <td>Tacos fish #6</td>
+          <td id="tacos_cantidad_t"></td>
+          <td id="precio_tacos">0.5 USD</td>
+          <td id="precio_tacos_t"></td>
+        </tr>
+        <!-- SUBTOTALES -->
+         <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>SUBTOTAL</td>
+          <td id="subtotal"></td>
+         </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="containerJSON"></div>
+
+  <div>
+    <iframe src="pdf/ventana.pdf" width="100%" height="800" frameborder="0"></iframe>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="js/vidriero.js"></script>
+  <script src="js/precios.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
