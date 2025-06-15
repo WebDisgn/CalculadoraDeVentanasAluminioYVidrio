@@ -3,63 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <title>Calculadora de Vidrio por Espesor</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #34495e;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        #resultado {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #ecf0f1;
-            border-radius: 4px;
-            white-space: pre-line;
-        }
-        .precio-info {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 5px;
+        #calculadoraPrecioVidrios {
+            display: grid;
+            place-items: center;
+            height: 100vh;
         }
     </style>
-</head>
+ </head>
 <body>
+    <div id="nav-container"></div>
+
+    <div id="calculadoraPrecioVidrios">
     <h1>Calculadora de Vidrio</h1>
     <form id="form-vidrio">
         <div class="form-group">
@@ -86,8 +43,10 @@
         </div>
         <button type="button" onclick="calcularVidrio()">Calcular</button>
     </form>
-    <div id="resultado"></div>
 
+    </div>
+    <div id="resultado"></div>
+<div id="footer-container"></div>
     <script>
         // Precios base por color (sin ajuste de espesor)
         const preciosBase = {
@@ -178,5 +137,8 @@
         // Inicializar al cargar la página
         actualizarPrecioInfo();
     </script>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/preload-components.js"></script>
 </body>
 </html>
