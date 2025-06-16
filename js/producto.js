@@ -1,21 +1,35 @@
 let productos = [];
+let productos_tbody = document.getElementById("productos_tbody");
+console.log(productos_tbody);
+document.addEventListener("DOMContentLoaded", async () => {
+  await cargarProductos();
+  mostrarProductos();
+});
 
-fetch('productos.json')
-  .then(res => res.json())
-  .then(data => {
-    productos = data;
-    mostrarProductos();
-  });
+async function cargarProductos() {
+  try {
+    const res = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/src/productos.json');
+    productos = await res.json();
+  } catch (error) {
+    console.error('Error al cargar productos:', error);
+  }
+}
 
 function mostrarProductos() {
-  const contenedor = document.getElementById('lista-productos');
-  contenedor.innerHTML = '';
+  const tbody = document.getElementById('productos_tbody'); // Selecciona el <tbody> de la tabla
+  tbody.innerHTML = ''; // Limpia el contenido anterior
+
   productos.forEach((p, index) => {
-    contenedor.innerHTML += `
-      <div class="item">
-        <span>${p.nombre} ($${p.precio})</span>
-        <input type="number" min="0" value="0" id="cant${index}" onchange="calcularTotal()" />
-      </div>`;
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+    <td>${p.codigo}</td>
+      <td>${p.nombre}</td>
+      <td>$${p.precio}</td>
+      
+      <td><input type="number" min="0" value="0" id="cant${index}" onchange="calcularTotal()" /></td>
+      <td>${p.cantidad}</td>
+    `;
+    tbody.appendChild(fila);
   });
 }
 

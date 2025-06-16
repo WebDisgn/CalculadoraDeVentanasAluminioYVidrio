@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 totalRiel += isNaN(riel) ? 0 : riel * 2;
                 totalJamba += isNaN(jamba) ? 0 : jamba * 2;
                 totalVertical += isNaN(vertical) ? 0 : vertical * 4;
+                console.log(totalVertical);
                 totalHorizontal += isNaN(horizontal) ? 0 : horizontal * 4;
                 totalMallaAncho += isNaN(mallaAncho) ? 0 : mallaAncho * 2;
                 totalMallaAlto += isNaN(mallaAlto) ? 0 : mallaAlto * 2;
@@ -183,7 +184,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("total-vinil").textContent = totalVinil.toFixed(2) + " cm";
         document.getElementById("total-piola").textContent = totalPiola.toFixed(2) + " cm";
         document.getElementById("total-tacosFish").textContent = totalTacos + " u";
+        ///////////////////////////////////////////////////////////////////////////
         //FACTURA -------------------------------------------------------------
+        ///////////////////////////////////////////////////////////////////////////
         //RIEL----------------------------------------------------------------
         let precioRiel = (document.getElementById("precio_riel").textContent)*(Math.floor(totalRiel / 640));
         let precioRielRetazo = (document.getElementById("precio_riel_r").textContent)*(((totalRiel / 640) - (Math.floor(totalRiel / 640))));
@@ -203,49 +206,60 @@ document.addEventListener("DOMContentLoaded", function () {
         let precio_vertical_r = (document.getElementById("precio_vertical_r").textContent)*(((totalVertical / 640) - (Math.floor(totalVertical / 640))));
         document.getElementById("vertical_l").textContent = Math.floor(totalVertical / 640);
         document.getElementById("vertical_r").textContent = ((totalVertical / 640) - (Math.floor(totalVertical / 640))) * 640 + "cm";
-        document.getElementById("vertical_t").textContent = Math.floor(totalVertical / 640) * precio_vertical;
-        document.getElementById("vertical_rt").textContent = (((totalVertical / 640) - (Math.floor(totalVertical / 640))) * precio_vertical_r); 
+        document.getElementById("vertical_t").textContent = precio_vertical;
+        document.getElementById("vertical_rt").textContent = precio_vertical_r; 
         //HOROZONTAL-----------------------------------------------------------------
         let precio_horizontal = (document.getElementById("precio_horizontal").textContent)*(Math.floor(totalHorizontal/640));
         let precio_horizontal_r = (document.getElementById("precio_horizontal_r").textContent)*(((totalHorizontal / 640) - (Math.floor(totalHorizontal / 640))));
         document.getElementById("horizontal_l").textContent = Math.floor(totalHorizontal / 640);
         document.getElementById("horizontal_r").textContent = ((totalHorizontal / 640) - (Math.floor(totalHorizontal / 640))) * 640 + "cm";
-        document.getElementById("horizontal_t").textContent = Math.floor(totalHorizontal / 640) * precio_horizontal;
-        document.getElementById("horizontal_rt").textContent = (((totalHorizontal / 640) - (Math.floor(totalHorizontal / 640))) * precio_horizontal_r);
+        document.getElementById("horizontal_t").textContent = precio_horizontal;
+        document.getElementById("horizontal_rt").textContent = precio_horizontal_r;
         //MALLA CORREDIZA--------------------------------------------------------------
+        let precio_malla_corrediza = (document.getElementById("precio_malla_corrediza").textContent)*(Math.floor((totalMallaAncho + totalMallaAlto) / 640));
+        let precio_malla_corrediza_r = (document.getElementById("precio_malla_corrediza_r").textContent)*(((totalMallaAncho + totalMallaAlto) / 640) - (Math.floor((totalMallaAncho + totalMallaAlto) / 640)));
         document.getElementById("malla_corrediza_l").textContent = Math.floor((totalMallaAncho + totalMallaAlto) / 640);////CONTINUAR
         document.getElementById("malla_corrediza_r").textContent = (((totalMallaAncho + totalMallaAlto) / 640) - (Math.floor((totalMallaAncho + totalMallaAlto) / 640))) * 640 + "cm";
-        document.getElementById("malla_corrediza_t").textContent = Math.floor((totalMallaAncho + totalMallaAlto) / 640) * 25;
-        document.getElementById("malla_corrediza_rt").textContent = ((((totalMallaAncho + totalMallaAlto) / 640) - (Math.floor((totalMallaAncho + totalMallaAlto) / 640))) * 40);
+        document.getElementById("malla_corrediza_t").textContent = precio_malla_corrediza;
+        document.getElementById("malla_corrediza_rt").textContent = precio_malla_corrediza_r;
         //SEGUROS PUSH------------------------------------------------------------------------
+        let precio_seguros = (document.getElementById("precio_seguro_unidad").textContent)*totalSeguros;
         document.getElementById("seguro_cantidad_t").textContent = totalSeguros;
-        document.getElementById("precio_seguro_t").textContent = totalSeguros * 1;
+        document.getElementById("precio_seguro_t").textContent = precio_seguros;
         //RUEDAS VENTANA---------------------------------------------------------------------
+        let precio_ruedas = (document.getElementById("precio_rueda_unidad").textContent)*totalRuedas;
         document.getElementById("rueda_cantidad_t").textContent = totalRuedas;
-        document.getElementById("precio_rueda_t").textContent = totalRuedas * 0.75;
+        document.getElementById("precio_rueda_t").textContent = precio_ruedas;
         //ESQUINEROS-------------------------------------------------------------------
+        let precio_esquineros = (document.getElementById("precio_esquinero_unidad").textContent)*totalEsquineros;
         document.getElementById("esquinero_cantidad_t").textContent = totalEsquineros;
-        document.getElementById("precio_esquinero_t").textContent = totalEsquineros * 0.35;
+        document.getElementById("precio_esquinero_t").textContent = precio_esquineros;
         //FELPA--------------------------------------------------------------------------
+        let precio_felpa =(document.getElementById("precio_felpa_cm").textContent)*totalFelpa;
         document.getElementById("felpa_cantidad_t").textContent = totalFelpa;
-        document.getElementById("precio_felpa_t").textContent = totalFelpa * 0.01;
+        document.getElementById("precio_felpa_t").textContent = precio_felpa;
         //TORNILLOS 8*1/2------------------------------------------------------------------
+        let precio_tornillos_media = (document.getElementById("precio_tornillos_media").textContent)*totalTornillosMedia;
         document.getElementById("tornillos_media_t").textContent = totalTornillosMedia;
-        document.getElementById("precio_tornillo_media_t").textContent = totalTornillosMedia * 0.05;
+        document.getElementById("precio_tornillo_media_t").textContent = precio_tornillos_media;
         //TORNILLOS 8*2----------------------------------------------------------------
+        let precio_tornillos = (document.getElementById("precio_tornillo").textContent)*totalTornillosDosPulgadas;
         document.getElementById("tornillos_cantidad_t").textContent = totalTornillosDosPulgadas;
-        document.getElementById("precio_tornillo_t").textContent = totalTornillosDosPulgadas * 0.05;
+        document.getElementById("precio_tornillo_t").textContent = precio_tornillos;
         //VINIL------------------------------------------------------------------------------
+        let precio_vinil = (document.getElementById("precio_vinil".textContent))*((totalVinil / 100) / 20)
         document.getElementById("vinil_cantidad_t").textContent = ((totalVinil / 100) / 20) + "kg";
-        document.getElementById("precio_vinil_t").textContent = ((totalVinil / 100) / 20) * 5;
+        document.getElementById("precio_vinil_t").textContent = precio_vinil;
         //PIOLA------------------------------------------------------------------------------
+        let precio_piola = (document.getElementById("precio_piola").textContent)*((totalPiola / 100) / 20);
         document.getElementById("piola_cantidad_t").textContent = ((totalPiola / 100) / 20) + "kg";
-        document.getElementById("precio_piola_t").textContent = ((totalPiola / 100) / 20) * 5;
-        //TACOS FISH------------------------------------------------------------------------   
+        document.getElementById("precio_piola_t").textContent = precio_piola;
+        //TACOS FISH------------------------------------------------------------------------ 
+        let precio_tacos = (document.getElementById("precio_tacos").textContent)*(totalTacos /10)
         document.getElementById("tacos_cantidad_t").textContent = (totalTacos /10);
-        document.getElementById("precio_tacos_t").textContent = (totalTacos /10) * 0.05;  
+        document.getElementById("precio_tacos_t").textContent = precio_tacos;  
         //SUBTOTAL---------------------------------------------------------------------------
-        document.getElementById("subtotal").textContent = (precioRiel+precioRielRetazo+precio_jamba+precio_jamba_r);
+        document.getElementById("subtotal").textContent = (precioRiel+precioRielRetazo+precio_jamba+precio_jamba_r+precio_vertical+precio_vertical_r+precio_horizontal+precio_horizontal_r+precio_malla_corrediza+precio_malla_corrediza_r+precio_felpa+precio_piola+precio_ruedas+precio_seguros+precio_tacos+precio_tornillos+precio_tornillos_media+precio_vinil);
         
     }
 
