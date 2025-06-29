@@ -75,7 +75,7 @@
       if (user) {
         // Puedes guardar algo en localStorage si necesitas
         localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.href = "dashboard.html"; // Redirección
+        window.open("dashboard.html", "_blank"); // Redirección
       } else {
         document.getElementById('status').textContent = 'Credenciales incorrectas';
       }
