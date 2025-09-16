@@ -1,4 +1,6 @@
 class ClassPuerta {
+    ancho;
+    alto;
     constructor(ancho, alto) {
         this.ancho = parseFloat(ancho);
         this.alto = parseFloat(alto);

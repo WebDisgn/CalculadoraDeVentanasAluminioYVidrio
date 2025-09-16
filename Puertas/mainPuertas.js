@@ -1,6 +1,5 @@
 // mainPuertas.js
 import ClassPuerta from './ClassPuerta.js';
-
 document.addEventListener("DOMContentLoaded", () => {
 
     // Llamada al botón para crear una nueva puerta
@@ -15,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
        <td>${idPuerta}</td>
        <td>${anchoPuerta}</td>
        <td>${altoPuerta}</td>
+       <td>${puerta.vidrioFijoConNervio(puerta.ancho)}</td>
        `;
 
         //console.log(arrayPuertas);

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Gestión de Ventanas</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #0d6efd;
+    }
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    /* Estilos para DataTables responsive */
+    table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before, 
+    table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
+      background-color: #0d6efd;
+    }
+    .canvas-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Ventanas de Aluminio Y Vidrio</h1>
+    
+    <!-- TABLA PRINCIPAL-->
+    <div class="table-responsive">
+      <table class="table table-striped display nowrap" id="tabla-calculos" style="width:100%">
+        <thead>
+          <tr class="table-primary">
+            <th>Ancho (cm)</th>
+            <th>Alto (cm)</th>
+            <th>Área (m²)</th>
+            <th>Riel (cm)</th>
+            <th>Jamba (cm)</th>
+            <th>Vertical (cm)</th>
+            <th>Horizontal (cm)</th>
+            <th>MallaC Ancho</th>
+            <th>MallaC Alto</th>
+            <th>Vidrio Ancho</th>
+            <th>Vidrio Alto</th>
+            <th>Seguros</th>
+            <th>Ruedas</th>
+            <th>Esquineros</th>
+            <th>Felpa (cm)</th>
+            <th>Tornillos 8*1/2</th>
+            <th>Tornillos 8*2</th>
+            <th>Vinil Vent</th>
+            <th>Vinil Piola</th>
+            <th>Tacos Fish</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Las filas con cálculos se agregarán aquí -->
+        </tbody>
+        <tfoot>
+          <tr class="table-warning">
+            <td colspan="2">Totales:</td>
+            <td id="total-area">0 m²</td>
+            <td id="total-riel">0 cm</td>
+            <td id="total-jamba">0 cm</td>
+            <td id="total-vertical">0 cm</td>
+            <td id="total-horizontal">0 cm</td>
+            <td id="total-mallaAncho">0 cm</td>
+            <td id="total-mallaAlto">0 cm</td>
+            <td id="total-vidrioAncho">0 cm</td>
+            <td id="total-vidrioAlto">0 cm</td>
+            <td id="total-seguros">0 u</td>
+            <td id="total-ruedas">0 u</td>
+            <td id="total-esquineros">0 u</td>
+            <td id="total-felpa">0 cm</td>
+            <td id="total-tornillosMedia">0 u</td>
+            <td id="total-tornillosDosPulgadas">0 u</td>
+            <td id="total-vinil">0 cm</td>
+            <td id="total-piola">0 cm</td>
+            <td id="total-tacosFish">0 u</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    
+    <div class="btn-container">
+      <button id="agregar-fila" class="btn btn-primary">Agregar Ventana</button>
+      <button id="calcular-todo" class="btn btn-success">Calcular Todos</button>
+      <!--<button class="btn btn-info" id="generar-distribucion">Generar Distribución</button>-->
+       <button class="btn btn-success m-2 vidrioVentana">Generar Distribución</button>
+      <button class="btn btn-secondary" id="exportar-datos">Exportar Datos</button>
+    </div>
+ <div class="canvas-container">
+    <canvas class="canvas"></canvas>
+  </div>
+    
+
+    <div class="my-3">
+      <input list="color" id="aluminioColor" class="form-control" placeholder="Selecciona un Color...">
+      <datalist id="color">
+        <option value="blanco">Blanco</option>
+        <option value="negro">Negro</option>
+        <option value="bronce">Bronce</option>
+        <option value="natural">Natural</option>
+        <option value="maderado">Maderado</option>
+      </datalist>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  
+  <!-- Dependencias para exportar -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+ 
+
+    <script src="js/vidriero.js"></script>
+  <script src="js/precios.js"></script>
+  <script src="js/preload-components.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <!-- Aplicación con POO correcta -->
+  <script>
+    // CLASE PRINCIPAL: VENTANA
+    class Ventana {
+      constructor(ancho, alto, color = 'blanco') {
+        this.ancho = ancho;
+        this.alto = alto;
+        this.color = color;
+        this.materiales = {};
+      }
+      
+      // Método para calcular el área
+      calcularArea() {
+        return (this.ancho * this.alto) / 10000;
+      }
+      
+      // Método para obtener dimensiones en formato legible
+      obtenerDimensiones() {
+        return {
+          ancho: this.ancho,
+          alto: this.alto,
+          area: this.calcularArea()
+        };
+      }
+    }
+
+    // CLASE: CALCULADORA DE MATERIALES (Responsabilidad única)
+    class CalculadoraMateriales {
+      static calcularRiel(ancho) {
+        return ancho;
+      }
+      
+      static calcularJamba(alto) {
+        return alto - 0.9;
+      }
+      
+      static calcularVertical(alto) {
+        return alto - 2.8;
+      }
+      
+      static calcularHorizontal(ancho) {
+        return (ancho - 10.8) / 2;
+      }
+      
+      static calcularMallaAncho(ancho) {
+        return ((ancho - 10.8) / 2) + 3.0;
+      }
+      
+      static calcularMallaAlto(alto) {
+        return alto - 3.0;
+      }
+      
+      static calcularVidrioAncho(ancho) {
+        return ((ancho - 10.8) / 2) + 1.3;
+      }
+      
+      static calcularVidrioAlto(alto) {
+        return alto - (2.8 + 6.7);
+      }
+      
+      // Calcular todos los materiales para una ventana
+      static calcularTodosMateriales(ventana) {
+        return {
+          riel: this.calcularRiel(ventana.ancho),
+          jamba: this.calcularJamba(ventana.alto),
+          vertical: this.calcularVertical(ventana.alto),
+          horizontal: this.calcularHorizontal(ventana.ancho),
+          mallaAncho: this.calcularMallaAncho(ventana.ancho),
+          mallaAlto: this.calcularMallaAlto(ventana.alto),
+          vidrioAncho: this.calcularVidrioAncho(ventana.ancho),
+          vidrioAlto: this.calcularVidrioAlto(ventana.alto),
+          seguros: 1,
+          ruedas: 4,
+          esquineros: 8,
+          felpa: 50,
+          tornillosMedia: 10,
+          tornillosDosPulgadas: 13,
+          vinil: 4 * (ventana.ancho + ventana.alto),
+          vinilPiola: 2 * (ventana.ancho + ventana.alto),
+          tacoFish: 10
+        };
+      }
+    }
+
+    // CLASE: GESTOR DE VENTANAS (Coordina las ventanas y la UI)
+    class GestorVentanas {
+      constructor() {
+        this.ventanas = [];
+        this.dataTable = null;
+        this.inicializarDataTable();
+        this.vincularEventos();
+      }
+      
+      inicializarDataTable() {
+        this.dataTable = $('#tabla-calculos').DataTable({
+          responsive: true,
+          dom: 'Bfrtip',
+          buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+          ],
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+          },
+          paging: false,
+          ordering: false,
+          info: false,
+          searching: false
+        });
+      }
+      
+      vincularEventos() {
+        const self = this;
+        
+        $('#agregar-fila').on('click', () => {
+          self.agregarVentana();
+        });
+        
+        $('#calcular-todo').on('click', () => {
+          self.calcularTodasVentanas();
+        });
+        
+        $('#generar-distribucion').on('click', () => {
+          self.generarDistribucion();
+        });
+        
+        $('#exportar-datos').on('click', () => {
+          self.exportarDatos();
+        });
+        
+        $('#tabla-calculos tbody').on('click', 'button.calcular', function() {
+          const tr = $(this).closest('tr');
+          const index = self.dataTable.row(tr).index();
+          self.calcularVentana(index);
+        });
+        
+        $('#tabla-calculos tbody').on('click', 'button.eliminar', function() {
+          const tr = $(this).closest('tr');
+          const index = self.dataTable.row(tr).index();
+          self.eliminarVentana(index);
+        });
+      }
+      
+      agregarVentana() {
+        // Crear una nueva ventana con valores por defecto
+        const nuevaVentana = new Ventana(0, 0, $('#aluminioColor').val() || 'blanco');
+        this.ventanas.push(nuevaVentana);
+        
+        // Agregar fila a la tabla
+        this.dataTable.row.add([
+          `<input type="number" step="0.01" class="ancho form-control form-control-sm" 
+                 value="${nuevaVentana.ancho}" data-prop="ancho" />`,
+          `<input type="number" step="0.01" class="alto form-control form-control-sm" 
+                 value="${nuevaVentana.alto}" data-prop="alto" />`,
+          '0 m²',
+          '0 cm', '0 cm', '0 cm', '0 cm', '0 cm', '0 cm', '0 cm', '0 cm',
+          '0 u', '0 u', '0 u', '0 cm', '0 u', '0 u', '0 cm', '0 cm', '0 u',
+          '<div class="btn-group"><button class="btn btn-info btn-sm calcular">Calcular</button>' +
+          '<button class="btn btn-warning btn-sm eliminar">Eliminar</button></div>'
+        ]).draw();
+        
+        // Actualizar eventos de cambio en inputs
+        this.vincularEventosInputs();
+        this.dataTable.responsive.recalc();
+      }
+      
+      vincularEventosInputs() {
+        const self = this;
+        
+        $('#tabla-calculos tbody').off('change', 'input').on('change', 'input', function() {
+          const tr = $(this).closest('tr');
+          const index = self.dataTable.row(tr).index();
+          const prop = $(this).data('prop');
+          const value = parseFloat($(this).val()) || 0;
+          
+          if (self.ventanas[index]) {
+            self.ventanas[index][prop] = value;
+          }
+        });
+      }
+      
+      calcularVentana(index) {
+        if (!this.ventanas[index]) return;
+        
+        const ventana = this.ventanas[index];
+        const materiales = CalculadoraMateriales.calcularTodosMateriales(ventana);
+        
+        // Actualizar la fila en la tabla
+        this.dataTable.cell(index, 2).data(ventana.calcularArea().toFixed(2) + " m²");
+        this.dataTable.cell(index, 3).data(materiales.riel.toFixed(2) + " cm");
+        this.dataTable.cell(index, 4).data(materiales.jamba.toFixed(2) + " cm");
+        this.dataTable.cell(index, 5).data(materiales.vertical.toFixed(2) + " cm");
+        this.dataTable.cell(index, 6).data(materiales.horizontal.toFixed(2) + " cm");
+        this.dataTable.cell(index, 7).data(materiales.mallaAncho.toFixed(2) + " cm");
+        this.dataTable.cell(index, 8).data(materiales.mallaAlto.toFixed(3) + " cm");
+        this.dataTable.cell(index, 9).data(materiales.vidrioAncho.toFixed(2) + " cm");
+        this.dataTable.cell(index, 10).data(materiales.vidrioAlto.toFixed(2) + " cm");
+        this.dataTable.cell(index, 11).data(materiales.seguros + " u");
+        this.dataTable.cell(index, 12).data(materiales.ruedas + " u");
+        this.dataTable.cell(index, 13).data(materiales.esquineros + " u");
+        this.dataTable.cell(index, 14).data(materiales.felpa + " cm");
+        this.dataTable.cell(index, 15).data(materiales.tornillosMedia + " u");
+        this.dataTable.cell(index, 16).data(materiales.tornillosDosPulgadas + " u");
+        this.dataTable.cell(index, 17).data(materiales.vinil.toFixed(2) + " cm");
+        this.dataTable.cell(index, 18).data(materiales.vinilPiola.toFixed(2) + " cm");
+        this.dataTable.cell(index, 19).data(materiales.tacoFish + " u");
+        
+        this.dataTable.draw();
+        this.actualizarTotales();
+      }
+      
+      calcularTodasVentanas() {
+        this.ventanas.forEach((ventana, index) => {
+          this.calcularVentana(index);
+        });
+      }
+      
+      eliminarVentana(index) {
+        this.ventanas.splice(index, 1);
+        this.dataTable.row(index).remove().draw();
+        this.actualizarTotales();
+        this.dataTable.responsive.recalc();
+      }
+      
+      actualizarTotales() {
+        // Lógica para calcular totales
+        console.log("Actualizando totales...");
+      }
+      
+      generarDistribucion() {
+        // Lógica para generar distribución visual
+        console.log("Generando distribución...");
+      }
+      
+      exportarDatos() {
+        // Exportar datos usando DataTables
+        this.dataTable.button('.buttons-excel').trigger();
+      }
+    }
+
+    // Inicializar la aplicación cuando el documento esté listo
+    $(document).ready(function() {
+      window.gestorVentanas = new GestorVentanas();
+    });
+  </script>
+</body>
+</html>
