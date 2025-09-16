@@ -1,13 +1,18 @@
-    async function cargarComponentes() {
-      try {
-        const nav = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/nav.html');
-        document.getElementById('nav-container').innerHTML = await nav.text();
+// preload.js
+const fs = require('fs');
+const path = require('path');
 
-        const footer = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/footer.html');
-        document.getElementById('footer-container').innerHTML = await footer.text();
-      } catch (error) {
-        console.error('Error cargando componentes:', error);
-      }
-    }
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const navPath = path.join(__dirname, 'components/nav.html');
+    const footerPath = path.join(__dirname, 'components/footer.html');
 
-    document.addEventListener('DOMContentLoaded', cargarComponentes);
+    const nav = fs.readFileSync(navPath, 'utf8');
+    const footer = fs.readFileSync(footerPath, 'utf8');
+
+    document.body.insertAdjacentHTML('afterbegin', nav);
+    document.body.insertAdjacentHTML('beforeend', footer);
+  } catch (err) {
+    console.error('Error cargando componentes locales:', err);
+  }
+});
