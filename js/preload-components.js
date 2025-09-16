@@ -1,21 +1,13 @@
-// preload.js
-window.addEventListener('DOMContentLoaded', async () => {
-  try {
-    //const nav = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/nav.html');
-    const footer = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/footer.html');
-  const nav = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/nav.html');
-    document.body.insertAdjacentHTML('afterbegin', await nav.text());
-    const navContainer = document.createElement('div');
-    navContainer.id = 'nav-container';
-    navContainer.innerHTML = await nav.text();
-    document.body.prepend(navContainer);
+    async function cargarComponentes() {
+      try {
+        const nav = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/nav.html');
+        document.getElementById('nav-container').innerHTML = await nav.text();
 
-    const footerContainer = document.createElement('div');
-    footerContainer.id = 'footer-container';
-    footerContainer.innerHTML = await footer.text();
-    document.body.appendChild(footerContainer);
+        const footer = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/footer.html');
+        document.getElementById('footer-container').innerHTML = await footer.text();
+      } catch (error) {
+        console.error('Error cargando componentes:', error);
+      }
+    }
 
-  } catch (err) {
-    console.error('Error cargando navbar/footer:', err);
-  }
-});
+    document.addEventListener('DOMContentLoaded', cargarComponentes);
