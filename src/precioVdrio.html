@@ -6,81 +6,1110 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <title>Calculadora de Vidrio por Espesor</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-color: #34495e;
+            --light-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --whatsapp-color: #25D366;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        #nav-container, #footer-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
         #calculadoraPrecioVidrios {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge-unidad {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--secondary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        label i {
+            margin-right: 8px;
+            color: var(--secondary-color);
+        }
+
+        .form-control, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-control.listening {
+            border-color: var(--success-color);
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(39, 174, 96, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+            }
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+
+        .input-group .form-control {
+            flex: 1;
+            padding-right: 70px;
+        }
+
+        .unidad-indicador {
+            position: absolute;
+            left: 15px;
+            bottom: -20px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 12px;
+            z-index: 5;
+        }
+
+        .unidad-indicador i {
+            margin-right: 4px;
+            color: var(--secondary-color);
+        }
+
+        .voice-btn {
+            padding: 12px 20px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .voice-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .voice-btn.listening {
+            background: var(--success-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-btn i {
+            font-size: 1.2em;
+        }
+
+        .precio-info {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            transition: var(--transition);
+            border-left: 4px solid;
+        }
+
+        .precio-info.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left-color: var(--success-color);
+        }
+
+        .precio-info.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left-color: var(--warning-color);
+        }
+
+        .precio-info.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left-color: var(--danger-color);
+        }
+
+        .precio-info.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left-color: var(--secondary-color);
+        }
+
+        .btn-calcular {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .btn-calcular:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-calcular:active {
+            transform: translateY(0);
+        }
+
+        .espesor-nota {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-top: 8px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid var(--secondary-color);
+        }
+
+        #resultado {
+            margin: 20px auto;
+            max-width: 700px;
+            padding: 25px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            white-space: pre-line;
+            line-height: 1.8;
+            font-size: 1.1em;
+            border-left: 6px solid var(--success-color);
+            animation: slideIn 0.5s ease;
+            position: relative;
+        }
+
+        .resultado-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-megafono {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-megafono:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-megafono.speaking {
+            animation: speakPulse 1s infinite;
+        }
+
+        @keyframes speakPulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            color: white;
+        }
+
+        .voice-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .voice-status i {
+            font-size: 1.2em;
+        }
+
+        .voice-status.listening {
+            background: var(--success-color);
+        }
+
+        .voice-status.error {
+            background: var(--danger-color);
+        }
+
+        .command-hint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            border: 1px dashed var(--secondary-color);
+        }
+
+        .command-hint h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .command-hint h4 i {
+            color: var(--secondary-color);
+            margin-right: 8px;
+        }
+
+        .command-hint ul {
+            list-style: none;
+            padding: 0;
             display: grid;
-            place-items: center;
-            height: 100vh;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .command-hint li {
+            padding: 5px 10px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .command-hint li i {
+            color: var(--secondary-color);
+        }
+
+        .conversion-badge {
+            background: var(--warning-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .input-hint {
+            background: #e8f4fd;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            border-left: 3px solid var(--secondary-color);
+        }
+
+        .input-hint i {
+            color: var(--secondary-color);
+            margin-right: 8px;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--whatsapp-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: var(--transition);
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .voice-btn {
+                width: 100%;
+            }
+            
+            .command-hint ul {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group .form-control {
+                padding-right: 15px;
+            }
+            
+            .resultado-actions {
+                flex-direction: column;
+            }
+            
+            .btn-megafono, .btn-whatsapp {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
- </head>
+</head>
 <body>
     <div id="nav-container"></div>
 
-    <div id="calculadoraPrecioVidrios">
-    <h1>Calculadora de Vidrio</h1>
-    <form id="form-vidrio">
-        <div class="form-group">
-            <label for="ancho">Ancho (metros):</label>
-            <input type="number" id="ancho" step="0.01" required>
-        </div>
-        <div class="form-group">
-            <label for="alto">Alto (metros):</label>
-            <input type="number" id="alto" step="0.01" required>
-        </div>
-        <div class="form-group">
-            <label for="color">Color:</label>
-            <select id="color" required>
-                <option value="transparente">Transparente</option>
-                <option value="azul">Azul</option>
-                <option value="bronce">Bronce</option>
-                <option value="verde">Verde</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="espesor">Espesor (mm):</label>
-            <input type="number" id="espesor" required>
-            <div class="precio-info" id="precio-info"></div>
-        </div>
-        <button type="button" onclick="calcularVidrio()">Calcular</button>
-    </form>
+    <!-- WhatsApp flotante -->
+    <a href="https://wa.me/593980292129?text=Hola%21%20Quiero%20informaci%C3%B3n%20sobre%20vidrios" 
+       class="whatsapp-float" 
+       target="_blank"
+       title="Contáctanos por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
+    <div id="calculadoraPrecioVidrios">
+        <div class="calculator-card">
+            <h1>🎯 Calculadora de Vidrio</h1>
+            
+            <!-- Indicador de voz -->
+            <div id="voiceStatus" class="voice-status" style="display: none;">
+                <i class="fas fa-microphone"></i>
+                <span id="voiceStatusText">Escuchando...</span>
+            </div>
+
+            <!-- Hint de unidades -->
+            <div class="input-hint">
+                <i class="fas fa-info-circle"></i>
+                <strong>¡Puedes decir medidas en centímetros!</strong> Ej: "40 centímetros", "1.5 metros", "120 cm"
+            </div>
+
+            <form id="form-vidrio">
+                <div class="form-group">
+                    <label for="ancho"><i class="fas fa-arrows-alt-h"></i> Ancho:</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="ancho" step="0.01" min="0.01" placeholder="Ej: 0.8 m o 80 cm" required>
+                        <div class="unidad-indicador" id="unidad-ancho">
+                            <i class="fas fa-ruler"></i> <span>metros</span>
+                        </div>
+                        <button type="button" class="voice-btn" onclick="iniciarReconocimientoVoz('ancho')">
+                            <i class="fas fa-microphone"></i> Voz
+                        </button>
+                    </div>
+                    <small class="text-muted">💡 Di "80 centímetros" y se convertirá a 0.8m</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="alto"><i class="fas fa-arrows-alt-v"></i> Alto:</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="alto" step="0.01" min="0.01" placeholder="Ej: 2 m o 200 cm" required>
+                        <div class="unidad-indicador" id="unidad-alto">
+                            <i class="fas fa-ruler"></i> <span>metros</span>
+                        </div>
+                        <button type="button" class="voice-btn" onclick="iniciarReconocimientoVoz('alto')">
+                            <i class="fas fa-microphone"></i> Voz
+                        </button>
+                    </div>
+                    <small class="text-muted">💡 Di "un metro ochenta" y se convertirá a 1.8m</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="color"><i class="fas fa-palette"></i> Tipo / Color:</label>
+                    <div class="input-group">
+                        <select class="form-select" id="color" required>
+                            <option value="transparente">Transparente</option>
+                            <option value="azul">Azul</option>
+                            <option value="bronce">Bronce</option>
+                            <option value="verde">Verde</option>
+                            <option value="espejo">Espejo</option>
+                        </select>
+                        <button type="button" class="voice-btn" onclick="iniciarReconocimientoVoz('color')">
+                            <i class="fas fa-microphone"></i> Voz
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="espesor"><i class="fas fa-arrows-alt"></i> Espesor (mm):</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="espesor" step="1" min="3" placeholder="Ej: 4 mm" required>
+                        <button type="button" class="voice-btn" onclick="iniciarReconocimientoVoz('espesor')">
+                            <i class="fas fa-microphone"></i> Voz
+                        </button>
+                    </div>
+                    <div class="espesor-nota" id="espesor-nota"></div>
+                    <div class="precio-info info" id="precio-info"></div>
+                </div>
+
+                <!-- Comandos de voz rápidos -->
+                <div class="command-hint">
+                    <h4><i class="fas fa-microphone-alt"></i> Comandos de voz inteligentes:</h4>
+                    <ul>
+                        <li><i class="fas fa-play"></i> "calcular" - Realiza el cálculo</li>
+                        <li><i class="fas fa-eraser"></i> "limpiar" - Limpia el formulario</li>
+                        <li><i class="fas fa-info-circle"></i> "ayuda" - Muestra ayuda</li>
+                        <li><i class="fas fa-sync"></i> "reiniciar" - Reinicia todo</li>
+                        <li><i class="fas fa-ruler"></i> "40 centímetros" - Auto-convierte a metros</li>
+                        <li><i class="fas fa-language"></i> "un metro veinte" - Interpreta texto</li>
+                        <li><i class="fas fa-volume-up"></i> "leer resultado" - Activa el megáfono</li>
+                        <li><i class="fab fa-whatsapp"></i> "compartir" - Abre WhatsApp</li>
+                    </ul>
+                </div>
+
+                <button type="button" class="btn-calcular" onclick="calcularVidrio()">
+                    <i class="fas fa-calculator"></i> Calcular Precio
+                </button>
+            </form>
+        </div>
     </div>
+
     <div id="resultado"></div>
-<div id="footer-container"></div>
+    <div id="footer-container"></div>
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <script>
-        // Precios base por color (sin ajuste de espesor)
+        // Síntesis de voz
+        const sintesisVoz = window.speechSynthesis;
+        let utterance = null;
+
+        // Precios base por tipo/color
         const preciosBase = {
             transparente: 15,
             azul: 18,
             bronce: 20,
-            verde: 17
+            verde: 17,
+            espejo: 18
         };
 
-        // Ajuste de precio según espesor (ejemplo: +2% por cada mm > 5mm)
+        // Número de WhatsApp
+        const WHATSAPP_NUMBER = '593980292129';
+
+        // Variables para reconocimiento de voz
+        let reconocimientoVoz = null;
+        let campoActual = null;
+        let voiceStatus = document.getElementById('voiceStatus');
+        let voiceStatusText = document.getElementById('voiceStatusText');
+
+        // Función para leer el resultado con megáfono
+        function leerResultado() {
+            const resultado = document.getElementById('resultado').innerText;
+            if (!resultado) {
+                alert('Primero debe calcular un vidrio para usar el megáfono.');
+                return;
+            }
+
+            // Detener cualquier reproducción anterior
+            if (sintesisVoz.speaking) {
+                sintesisVoz.cancel();
+            }
+
+            // Crear mensaje más natural para leer
+            const lineas = resultado.split('\n');
+            let mensajeVoz = '';
+            
+            for (let linea of lineas) {
+                linea = linea.trim();
+                if (linea.startsWith('📐')) {
+                    mensajeVoz += 'Dimensiones: ' + linea.substring(2) + '. ';
+                } else if (linea.startsWith('🎨')) {
+                    mensajeVoz += 'Tipo: ' + linea.substring(2) + '. ';
+                } else if (linea.startsWith('📏')) {
+                    mensajeVoz += 'Espesor: ' + linea.substring(2) + '. ';
+                } else if (linea.startsWith('💰')) {
+                    mensajeVoz += 'Precio por metro cuadrado: ' + linea.substring(2) + '. ';
+                } else if (linea.startsWith('🔍')) {
+                    mensajeVoz += 'Área total: ' + linea.substring(2) + '. ';
+                } else if (linea.startsWith('💵')) {
+                    mensajeVoz += 'Precio total: ' + linea.substring(2) + '. ';
+                }
+            }
+
+            mensajeVoz += '¿Quieres enviar esta cotización por WhatsApp?';
+
+            utterance = new SpeechSynthesisUtterance(mensajeVoz);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9; // Velocidad más lenta para mejor comprensión
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            // Eventos
+            utterance.onstart = function() {
+                document.getElementById('btn-megafono').classList.add('speaking');
+            };
+
+            utterance.onend = function() {
+                document.getElementById('btn-megafono').classList.remove('speaking');
+            };
+
+            utterance.onerror = function() {
+                document.getElementById('btn-megafono').classList.remove('speaking');
+            };
+
+            sintesisVoz.speak(utterance);
+        }
+
+        // Función para generar mensaje de WhatsApp
+        function generarMensajeWhatsApp() {
+            const resultado = document.getElementById('resultado').innerText;
+            if (!resultado) {
+                alert('Primero debe calcular un vidrio para enviar por WhatsApp.');
+                return;
+            }
+
+            // Obtener valores actuales
+            const ancho = document.getElementById('ancho').value;
+            const alto = document.getElementById('alto').value;
+            const color = document.getElementById('color').value;
+            const espesor = document.getElementById('espesor').value;
+            
+            // Crear mensaje formateado
+            const mensaje = `Hola! 👋 Quiero información sobre este vidrio:
+
+📐 Dimensiones: ${ancho}m × ${alto}m
+🎨 Tipo: ${color.toUpperCase()}
+📏 Espesor: ${espesor}mm
+
+${resultado}
+
+¿Podrían confirmarme disponibilidad? Gracias! 🙌`;
+
+            // Codificar para URL
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            
+            // Abrir WhatsApp
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensajeCodificado}`, '_blank');
+        }
+
+        // Función inteligente para convertir texto a número con unidades
+        function interpretarMedida(texto) {
+            texto = texto.toLowerCase().trim();
+            
+            // Reemplazar comas por puntos
+            texto = texto.replace(',', '.');
+            
+            // Patrones comunes
+            const patrones = [
+                // Centímetros explícitos
+                { regex: /(\d+\.?\d*)\s*(centimetros|centímetros|cm)/i, unidad: 'cm' },
+                // Metros explícitos
+                { regex: /(\d+\.?\d*)\s*(metros|metro|m)/i, unidad: 'm' },
+                // Milímetros explícitos (para espesor)
+                { regex: /(\d+\.?\d*)\s*(milimetros|milímetros|mm)/i, unidad: 'mm' },
+                // Números con palabras (un metro, dos metros, etc)
+                { regex: /(un|una)\s+(metro|metra)/i, valor: 1, unidad: 'm' },
+                { regex: /(uno|un)\s+(metro)/i, valor: 1, unidad: 'm' },
+                // Patrón para "x metros" o "x cm"
+                { regex: /^(\d+\.?\d*)$/, unidad: 'auto' } // Solo número, asumir metros para ancho/alto, mm para espesor
+            ];
+
+            // Detectar si es para espesor (siempre en mm)
+            const esEspesor = campoActual === 'espesor';
+            
+            // Buscar en patrones
+            for (let patron of patrones) {
+                const match = texto.match(patron.regex);
+                if (match) {
+                    let valor, unidad;
+                    
+                    if (patron.valor) {
+                        valor = patron.valor;
+                        unidad = patron.unidad;
+                    } else {
+                        valor = parseFloat(match[1]);
+                        unidad = match[2] ? match[2].toLowerCase() : patron.unidad;
+                    }
+                    
+                    if (isNaN(valor)) continue;
+                    
+                    // Convertir según unidad detectada
+                    if (unidad === 'cm' || unidad.includes('centimetro')) {
+                        return valor / 100; // Convertir cm a metros
+                    } else if (unidad === 'm' || unidad.includes('metro')) {
+                        return valor; // Ya está en metros
+                    } else if (unidad === 'mm' || unidad.includes('milimetro')) {
+                        return esEspesor ? valor : valor / 1000; // Si es espesor, dejar en mm, si no, convertir a metros
+                    } else if (unidad === 'auto') {
+                        // Solo número, asumir metros para ancho/alto, mm para espesor
+                        return esEspesor ? valor : valor;
+                    }
+                }
+            }
+            
+            // Procesar texto como "un metro veinte" o "uno veinte"
+            const palabras = texto.split(' ');
+            if (palabras.length >= 2) {
+                if (palabras[0].includes('un') || palabras[0].includes('uno')) {
+                    if (palabras[1].includes('metro')) {
+                        // "un metro veinte" -> 1.20
+                        if (palabras.length >= 3) {
+                            const decimal = parseFloat(palabras[2].replace(',', '.'));
+                            if (!isNaN(decimal)) {
+                                return 1 + (decimal / 100);
+                            }
+                        }
+                        return 1;
+                    }
+                }
+            }
+            
+            // Si no se pudo interpretar, devolver null
+            return null;
+        }
+
+        // Iniciar reconocimiento de voz
+        function iniciarReconocimientoVoz(campo) {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('❌ Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.');
+                return;
+            }
+
+            if (reconocimientoVoz) {
+                reconocimientoVoz.stop();
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            reconocimientoVoz = new SpeechRecognition();
+            
+            reconocimientoVoz.lang = 'es-ES';
+            reconocimientoVoz.continuous = false;
+            reconocimientoVoz.interimResults = false;
+            reconocimientoVoz.maxAlternatives = 3;
+
+            campoActual = campo;
+
+            voiceStatus.style.display = 'flex';
+            voiceStatus.classList.add('listening');
+            voiceStatusText.textContent = `Escuchando ${campo}...`;
+
+            document.getElementById(campo).classList.add('listening');
+
+            reconocimientoVoz.onresult = function(event) {
+                // Probar todas las alternativas
+                for (let i = 0; i < event.results[0].length; i++) {
+                    const transcript = event.results[0][i].transcript;
+                    console.log('Alternativa:', transcript);
+                    
+                    // Procesar el comando
+                    if (procesarComandoVoz(transcript, campo)) {
+                        break; // Si se procesó correctamente, salir
+                    }
+                }
+            };
+
+            reconocimientoVoz.onerror = function(event) {
+                voiceStatus.classList.remove('listening');
+                voiceStatus.classList.add('error');
+                voiceStatusText.textContent = 'Error: ' + event.error;
+                
+                setTimeout(() => {
+                    voiceStatus.style.display = 'none';
+                    voiceStatus.classList.remove('error');
+                }, 3000);
+            };
+
+            reconocimientoVoz.onend = function() {
+                document.getElementById(campo).classList.remove('listening');
+                setTimeout(() => {
+                    voiceStatus.style.display = 'none';
+                    voiceStatus.classList.remove('listening');
+                }, 1000);
+            };
+
+            reconocimientoVoz.start();
+        }
+
+        // Procesar comandos de voz
+        function procesarComandoVoz(texto, campo) {
+            texto = texto.toLowerCase().trim();
+            console.log('Procesando:', texto);
+
+            // Comandos generales
+            if (texto.includes('calcular') || texto.includes('calcula')) {
+                calcularVidrio();
+                return true;
+            }
+
+            if (texto.includes('limpiar') || texto.includes('borrar')) {
+                limpiarFormulario();
+                return true;
+            }
+
+            if (texto.includes('ayuda') || texto.includes('ayudame')) {
+                mostrarAyudaVoz();
+                return true;
+            }
+
+            if (texto.includes('reiniciar')) {
+                if (confirm('¿Reiniciar toda la calculadora?')) {
+                    location.reload();
+                }
+                return true;
+            }
+
+            if (texto.includes('leer') || texto.includes('megáfono') || texto.includes('resultado')) {
+                leerResultado();
+                return true;
+            }
+
+            if (texto.includes('compartir') || texto.includes('whatsapp') || texto.includes('wsp')) {
+                generarMensajeWhatsApp();
+                return true;
+            }
+
+            // Procesar según el campo
+            switch(campo) {
+                case 'ancho':
+                case 'alto':
+                    const medida = interpretarMedida(texto);
+                    if (medida !== null && medida > 0) {
+                        document.getElementById(campo).value = medida.toFixed(2);
+                        actualizarUnidadIndicador(campo, medida);
+                        actualizarPrecioInfo();
+                        return true;
+                    } else {
+                        alert(`❌ No pude entender la medida. Di algo como: "80 centímetros" o "1.5 metros"`);
+                    }
+                    break;
+
+                case 'espesor':
+                    // Para espesor, buscar números en mm
+                    const matchMm = texto.match(/(\d+)\s*(mm|milímetros|milimetros)/i);
+                    if (matchMm) {
+                        const valor = parseInt(matchMm[1]);
+                        if (!isNaN(valor) && valor >= 3) {
+                            document.getElementById('espesor').value = valor;
+                            actualizarPrecioInfo();
+                            return true;
+                        }
+                    } else {
+                        // Intentar con número simple
+                        const numero = parseFloat(texto.replace(',', '.'));
+                        if (!isNaN(numero) && numero >= 3) {
+                            document.getElementById('espesor').value = Math.round(numero);
+                            actualizarPrecioInfo();
+                            return true;
+                        }
+                    }
+                    alert('❌ Para espesor, di algo como: "4 milímetros" o "6 mm"');
+                    break;
+
+                case 'color':
+                    if (texto.includes('transparente')) {
+                        document.getElementById('color').value = 'transparente';
+                    } else if (texto.includes('azul')) {
+                        document.getElementById('color').value = 'azul';
+                    } else if (texto.includes('bronce')) {
+                        document.getElementById('color').value = 'bronce';
+                    } else if (texto.includes('verde')) {
+                        document.getElementById('color').value = 'verde';
+                    } else if (texto.includes('espejo')) {
+                        document.getElementById('color').value = 'espejo';
+                    } else {
+                        alert('❌ Color no reconocido. Opciones: transparente, azul, bronce, verde, espejo');
+                        return false;
+                    }
+                    actualizarPrecioInfo();
+                    return true;
+            }
+            
+            return false;
+        }
+
+        // Actualizar indicador de unidad
+        function actualizarUnidadIndicador(campo, valor) {
+            const indicador = document.getElementById(`unidad-${campo}`);
+            if (indicador) {
+                if (valor < 0.1) {
+                    indicador.innerHTML = '<i class="fas fa-ruler"></i> <span>' + (valor * 1000).toFixed(0) + ' mm</span>';
+                } else if (valor < 1) {
+                    indicador.innerHTML = '<i class="fas fa-ruler"></i> <span>' + (valor * 100).toFixed(0) + ' cm</span>';
+                } else {
+                    indicador.innerHTML = '<i class="fas fa-ruler"></i> <span>' + valor.toFixed(2) + ' m</span>';
+                }
+            }
+        }
+
+        // Mostrar ayuda de voz
+        function mostrarAyudaVoz() {
+            alert(`🎤 COMANDOS DE VOZ:
+
+📏 MEDIDAS:
+• "80 centímetros" → 0.8m
+• "un metro veinte" → 1.2m
+• "2 metros" → 2m
+• "4 milímetros" → 4mm
+
+🎨 COLORES:
+• "azul", "verde", "bronce", "transparente", "espejo"
+
+🔊 MEGÁFONO:
+• "leer resultado" - Escucha el cálculo
+• "compartir" - Abre WhatsApp
+
+⚡ ACCIONES:
+• "calcular" - Realiza el cálculo
+• "limpiar" - Borra el formulario
+• "ayuda" - Muestra esta ayuda
+• "reiniciar" - Reinicia todo
+
+💡 EJEMPLOS:
+"ancho 80 centímetros"
+"alto un metro veinte"
+"color espejo 4 milímetros y calcular"`);
+        }
+
+        // Limpiar formulario
+        function limpiarFormulario() {
+            document.getElementById('ancho').value = '';
+            document.getElementById('alto').value = '';
+            document.getElementById('espesor').value = '';
+            document.getElementById('color').value = 'transparente';
+            document.getElementById('resultado').innerHTML = '';
+            
+            // Resetear indicadores
+            document.getElementById('unidad-ancho').innerHTML = '<i class="fas fa-ruler"></i> <span>metros</span>';
+            document.getElementById('unidad-alto').innerHTML = '<i class="fas fa-ruler"></i> <span>metros</span>';
+            
+            actualizarPrecioInfo();
+        }
+
+        // Función para validar espesor permitido
+        function esEspesorPermitido(color, espesor) {
+            if (color === 'espejo') {
+                return espesor === 3 || espesor === 4;
+            } else {
+                return espesor >= 3 && espesor <= 10;
+            }
+        }
+
+        // Calcular precio final
         function calcularPrecioFinal(color, espesor) {
             const precioBase = preciosBase[color];
+            
+            if (color === 'espejo') {
+                return precioBase.toFixed(2);
+            }
+            
             let precioFinal = precioBase;
             
             if (espesor > 5) {
-                const incremento = (espesor - 5) * 0.02; // +2% por mm extra
+                const incremento = (espesor - 5) * 0.02;
                 precioFinal = precioBase * (1 + incremento);
             } else if (espesor < 5) {
-                const descuento = (5 - espesor) * 0.01; // -1% por mm menos
+                const descuento = (5 - espesor) * 0.01;
                 precioFinal = precioBase * (1 - descuento);
             }
             
             return precioFinal.toFixed(2);
         }
 
-        // Actualiza el mensaje del precio al cambiar espesor o color
+        // Actualizar información de precio
         function actualizarPrecioInfo() {
             const color = document.getElementById("color").value;
             const espesor = parseFloat(document.getElementById("espesor").value) || 0;
-            const precioFinal = calcularPrecioFinal(color, espesor);
-            document.getElementById("precio-info").textContent = 
-                `Precio calculado: $${precioFinal}/m² (base: $${preciosBase[color]} + ajuste por espesor)`;
+            const precioInfo = document.getElementById("precio-info");
+            const espesorNota = document.getElementById("espesor-nota");
+            
+            if (color === 'espejo') {
+                espesorNota.textContent = "⚠️ Para espejo, solo disponibles: 3mm y 4mm";
+            } else {
+                espesorNota.textContent = "ℹ️ Rango recomendado: 3mm a 10mm";
+            }
+            
+            if (espesor > 0) {
+                if (!esEspesorPermitido(color, espesor)) {
+                    if (color === 'espejo') {
+                        precioInfo.className = 'precio-info error';
+                        precioInfo.textContent = "❌ Error: Para espejo solo se permite 3mm o 4mm";
+                    } else {
+                        precioInfo.className = 'precio-info warning';
+                        precioInfo.textContent = `⚠️ El espesor ${espesor}mm está fuera del rango recomendado (3-10mm)`;
+                    }
+                } else {
+                    const precioFinal = calcularPrecioFinal(color, espesor);
+                    precioInfo.className = 'precio-info success';
+                    precioInfo.textContent = `✅ Precio calculado: $${precioFinal}/m² (base: $${preciosBase[color]}${color !== 'espejo' ? ' + ajuste' : ''})`;
+                }
+            } else {
+                precioInfo.className = 'precio-info info';
+                precioInfo.textContent = `Precio base: $${preciosBase[color]}/m². Ingrese un espesor válido.`;
+            }
         }
 
+        // Clase Vidrio
         class Vidrio {
             constructor(ancho, alto, color, espesor) {
                 this.ancho = ancho;
@@ -99,43 +1128,120 @@
             }
 
             mostrarDetalles() {
+                const colorDisplay = this.color === 'espejo' ? 'ESPEJO' : this.color.toUpperCase();
+                const anchoCm = (this.ancho * 100).toFixed(0);
+                const altoCm = (this.alto * 100).toFixed(0);
+                const areaCm2 = (this.calcularArea() * 10000).toFixed(0);
+                
                 return `
-                📐 Dimensiones: ${this.ancho}m (ancho) x ${this.alto}m (alto)
-                🎨 Color: ${this.color}
+                🎯 RESULTADO DEL CÁLCULO
+                ═══════════════════════
+                
+                📐 Dimensiones: ${this.ancho.toFixed(2)}m × ${this.alto.toFixed(2)}m
+                📏 En centímetros: ${anchoCm}cm × ${altoCm}cm
+                
+                🎨 Tipo: ${colorDisplay}
                 📏 Espesor: ${this.espesor}mm
                 💰 Precio por m²: $${this.precioPorM2}
-                🔍 Área: ${this.calcularArea().toFixed(2)} m²
-                🎯 Precio total: $${this.calcularPrecioTotal().toFixed(2)}
+                
+                🔍 Área total: ${this.calcularArea().toFixed(2)} m²
+                📐 Área en cm²: ${areaCm2} cm²
+                
+                💵 PRECIO TOTAL: $${this.calcularPrecioTotal().toFixed(2)}
+                
+                ═══════════════════════
                 `;
             }
         }
 
+        // Función principal de cálculo
         function calcularVidrio() {
-            // Obtener valores del formulario
             const ancho = parseFloat(document.getElementById("ancho").value);
             const alto = parseFloat(document.getElementById("alto").value);
             const color = document.getElementById("color").value;
             const espesor = parseFloat(document.getElementById("espesor").value);
 
-            // Validar datos
             if (isNaN(ancho) || isNaN(alto) || isNaN(espesor)) {
-                alert("Por favor, ingresa valores numéricos válidos.");
+                alert("❌ Por favor, ingresa valores numéricos válidos.");
                 return;
             }
 
-            // Crear instancia de Vidrio (el precio se calcula automáticamente)
-            const miVidrio = new Vidrio(ancho, alto, color, espesor);
+            if (!esEspesorPermitido(color, espesor)) {
+                if (color === 'espejo') {
+                    alert("❌ Error: Para vidrio espejo, el espesor debe ser 3mm o 4mm.");
+                } else {
+                    alert(`⚠️ El espesor ${espesor}mm no es válido para ${color}. Rango recomendado: 3-10mm.`);
+                }
+                return;
+            }
 
-            // Mostrar resultado
-            document.getElementById("resultado").textContent = miVidrio.mostrarDetalles();
+            const miVidrio = new Vidrio(ancho, alto, color, espesor);
+            
+            // Mostrar resultado con botones de acción
+            const resultadoHTML = miVidrio.mostrarDetalles() + `
+                <div class="resultado-actions">
+                    <button id="btn-megafono" class="btn-megafono" onclick="leerResultado()">
+                        <i class="fas fa-volume-up"></i> Escuchar resultado
+                    </button>
+                    <button class="btn-whatsapp" onclick="generarMensajeWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById("resultado").innerHTML = resultadoHTML;
+            
+            // Actualizar indicadores de unidad
+            actualizarUnidadIndicador('ancho', ancho);
+            actualizarUnidadIndicador('alto', alto);
+            
+            // Animación del resultado
+            document.getElementById("resultado").style.animation = 'none';
+            setTimeout(() => {
+                document.getElementById("resultado").style.animation = 'slideIn 0.5s ease';
+            }, 10);
+            
+            // Preguntar si quiere escuchar el resultado
+            setTimeout(() => {
+                if (confirm('¿Quieres escuchar el resultado con el megáfono?')) {
+                    leerResultado();
+                }
+            }, 500);
         }
 
-        // Escuchar cambios en color o espesor para actualizar el precio
-        document.getElementById("color").addEventListener("change", actualizarPrecioInfo);
+        // Event listeners
+        document.getElementById("color").addEventListener("change", function() {
+            document.getElementById("espesor").value = '';
+            actualizarPrecioInfo();
+        });
+        
         document.getElementById("espesor").addEventListener("input", actualizarPrecioInfo);
+        
+        // Actualizar indicadores cuando se escriba manualmente
+        document.getElementById("ancho").addEventListener("input", function() {
+            const valor = parseFloat(this.value);
+            if (!isNaN(valor)) {
+                actualizarUnidadIndicador('ancho', valor);
+            }
+        });
+        
+        document.getElementById("alto").addEventListener("input", function() {
+            const valor = parseFloat(this.value);
+            if (!isNaN(valor)) {
+                actualizarUnidadIndicador('alto', valor);
+            }
+        });
 
-        // Inicializar al cargar la página
+        // Inicializar
         actualizarPrecioInfo();
+
+        // Atajo de teclado para voz (Ctrl + M)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'm') {
+                e.preventDefault();
+                iniciarReconocimientoVoz('ancho');
+            }
+        });
     </script>
 
     <script src="../js/bootstrap.bundle.min.js"></script>
