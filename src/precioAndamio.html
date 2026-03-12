@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Alquiler Andamios</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:10px;
+}
+
+.box{
+background:white;
+padding:10px;
+max-width:380px;
+margin-bottom:10px;
+}
+
+input,select{
+width:100%;
+padding:4px;
+margin-top:4px;
+font-size:13px;
+}
+
+button{
+width:100%;
+padding:6px;
+margin-top:5px;
+cursor:pointer;
+}
+
+#contrato{
+display:none;
+}
+
+.tickets{
+display:flex;
+justify-content:space-between;
+}
+
+.ticket{
+font-family:Courier, monospace;
+font-size:11px;
+white-space:pre;
+width:48%;
+}
+
+.no-print{
+margin-top:10px;
+}
+
+@media print{
+
+body{
+margin:0;
+}
+
+.no-print{
+display:none;
+}
+
+.box{
+display:none;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box" id="sistema">
+
+<b>Cliente</b>
+<input id="cliente">
+
+<b>Cédula</b>
+<input id="cedula">
+
+<b>Marco</b>
+<select id="marco">
+<option>2.1m x 1.7m</option>
+<option>1.5m x 0.8m</option>
+<option>1.5m x 1.1m</option>
+</select>
+
+<b>Tijeral</b>
+<select id="tijeral">
+<option>2m</option>
+<option>2.5m</option>
+</select>
+
+<b>Inicio</b>
+<input type="date" id="inicio">
+
+<b>Fin</b>
+<input type="date" id="fin">
+
+<b>Arnés</b>
+<input type="number" id="arnes" value="0">
+
+<b>Cabos</b>
+<input type="number" id="cabos" value="0">
+
+<b>Tableros 2.2m</b>
+<input type="number" id="tableros" value="0">
+
+<p>Total: <b id="total">$0</b></p>
+
+<button onclick="generar()">Generar contrato</button>
+
+</div>
+
+<div id="contrato">
+
+<div class="tickets">
+
+<div class="ticket" id="ticket1"></div>
+
+<div class="ticket" id="ticket2"></div>
+
+</div>
+
+<div class="no-print">
+
+<button onclick="window.print()">Imprimir</button>
+<button onclick="wts()">Enviar WhatsApp</button>
+<button onclick="location.reload()">Nuevo contrato</button>
+
+</div>
+
+</div>
+
+<script>
+
+const precioDia=5
+const precioExtra=1
+const recargo=7
+
+
+function numeroContrato(){
+
+let n=localStorage.getItem("contrato")
+
+if(!n){
+n=1
+}else{
+n=parseInt(n)+1
+}
+
+localStorage.setItem("contrato",n)
+
+return n.toString().padStart(6,'0')
+
+}
+
+
+function dias(){
+
+let i=document.getElementById("inicio").value
+let f=document.getElementById("fin").value
+
+if(!i||!f)return 1
+
+let a=new Date(i)
+let b=new Date(f)
+
+let d=(b-a)/(1000*60*60*24)
+
+if(d<1)d=1
+
+return d
+
+}
+
+function total(){
+
+let d=dias()
+
+let ar=parseInt(document.getElementById("arnes").value||0)
+let ca=parseInt(document.getElementById("cabos").value||0)
+let ta=parseInt(document.getElementById("tableros").value||0)
+
+return (precioDia*d)+((ar+ca+ta)*precioExtra*d)
+
+}
+
+
+function generar(){
+
+let num=numeroContrato()
+
+let cliente=document.getElementById("cliente").value
+let cedula=document.getElementById("cedula").value
+let marco=document.getElementById("marco").value
+let tijeral=document.getElementById("tijeral").value
+
+let inicio=document.getElementById("inicio").value
+let fin=document.getElementById("fin").value
+
+let ar=document.getElementById("arnes").value
+let ca=document.getElementById("cabos").value
+let ta=document.getElementById("tableros").value
+
+let d=dias()
+let t=total()
+
+let txt=
+
+`************************************************
+CONTRATO ALQUILER ANDAMIOS
+************************************************
+
+CONTRATO N° ${num}
+
+PROPIETARIO : ANDAMIOS VALDEZ
+TEL         : 0980292129
+UBICACION   : PAUTE - AZUAY
+
+--------------------------------
+CLIENTE : ${cliente}
+CEDULA  : ${cedula}
+
+MARCO   : ${marco}
+TIJERAL : ${tijeral}
+
+TABLEROS 2.2m : ${ta}
+CABOS         : ${ca}
+ARNES         : ${ar}
+
+--------------------------------
+INICIO : ${inicio}
+FIN    : ${fin}
+
+DIAS   : ${d}
+
+TOTAL  : $${t}
+
+Recargo retraso $${recargo}/día
+
+--------------------------------
+
+FIRMA CLIENTE
+
+__________________________
+
+`
+
+document.getElementById("ticket1").innerText=txt+"TICKET CLIENTE"
+
+document.getElementById("ticket2").innerText=txt+"COPIA NEGOCIO"
+
+document.getElementById("sistema").style.display="none"
+document.getElementById("contrato").style.display="block"
+
+}
+
+function wts(){
+
+let txt=document.getElementById("ticket1").innerText
+
+let url="https://wa.me/593980292129?text="+encodeURIComponent(txt)
+
+window.open(url)
+
+}
+
+
+document.querySelectorAll("input").forEach(e=>{
+e.addEventListener("input",()=>{
+document.getElementById("total").innerText="$"+total()
+})
+})
+
+</script>
+
+</body>
+</html>
