@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Alquiler Andamios</title>
+<title>LUMETAL Andamios</title>
 
 <style>
 
@@ -15,7 +15,7 @@ padding:10px;
 .box{
 background:white;
 padding:10px;
-max-width:380px;
+max-width:420px;
 margin-bottom:10px;
 }
 
@@ -29,7 +29,7 @@ font-size:13px;
 button{
 width:100%;
 padding:6px;
-margin-top:5px;
+margin-top:6px;
 cursor:pointer;
 }
 
@@ -55,17 +55,11 @@ margin-top:10px;
 
 @media print{
 
-body{
-margin:0;
-}
+body{margin:0;}
 
-.no-print{
-display:none;
-}
+.box{display:none;}
 
-.box{
-display:none;
-}
+.no-print{display:none;}
 
 }
 
@@ -82,18 +76,33 @@ display:none;
 <b>Cédula</b>
 <input id="cedula">
 
-<b>Marco</b>
-<select id="marco">
-<option>2.1m x 1.7m</option>
-<option>1.5m x 0.8m</option>
+<b>Dirección</b>
+<input id="direccion">
+
+<b>Teléfono</b>
+<input id="telefono">
+
+<b>Correo (opcional)</b>
+<input id="correo">
+
+<b>Tamaño Andamio</b>
+<select id="tamano">
+<option>2m x 1.5m</option>
+<option>1.7m x 0.8m</option>
 <option>1.5m x 1.1m</option>
 </select>
 
-<b>Tijeral</b>
-<select id="tijeral">
-<option>2m</option>
-<option>2.5m</option>
-</select>
+<b>Cantidad de módulos</b>
+<input type="number" id="andamios" value="1">
+
+<b>Tableros</b>
+<input type="number" id="tableros" value="0">
+
+<b>Cabos</b>
+<input type="number" id="cabos" value="0">
+
+<b>Arnés</b>
+<input type="number" id="arnes" value="0">
 
 <b>Inicio</b>
 <input type="date" id="inicio">
@@ -101,27 +110,18 @@ display:none;
 <b>Fin</b>
 <input type="date" id="fin">
 
-<b>Arnés</b>
-<input type="number" id="arnes" value="0">
-
-<b>Cabos</b>
-<input type="number" id="cabos" value="0">
-
-<b>Tableros 2.2m</b>
-<input type="number" id="tableros" value="0">
-
 <p>Total: <b id="total">$0</b></p>
 
 <button onclick="generar()">Generar contrato</button>
 
 </div>
 
+
 <div id="contrato">
 
 <div class="tickets">
 
 <div class="ticket" id="ticket1"></div>
-
 <div class="ticket" id="ticket2"></div>
 
 </div>
@@ -130,35 +130,31 @@ display:none;
 
 <button onclick="window.print()">Imprimir</button>
 <button onclick="wts()">Enviar WhatsApp</button>
-<button onclick="location.reload()">Nuevo contrato</button>
+<button onclick="location.reload()">Nuevo</button>
 
 </div>
 
 </div>
+
 
 <script>
 
-const precioDia=5
+const precioModulo=2
 const precioExtra=1
 const recargo=7
-
 
 function numeroContrato(){
 
 let n=localStorage.getItem("contrato")
 
-if(!n){
-n=1
-}else{
-n=parseInt(n)+1
-}
+if(!n){n=1}
+else{n=parseInt(n)+1}
 
 localStorage.setItem("contrato",n)
 
 return n.toString().padStart(6,'0')
 
 }
-
 
 function dias(){
 
@@ -180,16 +176,21 @@ return d
 
 function total(){
 
+let mod=parseInt(document.getElementById("andamios").value||0)
+
+let tab=parseInt(document.getElementById("tableros").value||0)
+let cab=parseInt(document.getElementById("cabos").value||0)
+let arn=parseInt(document.getElementById("arnes").value||0)
+
 let d=dias()
 
-let ar=parseInt(document.getElementById("arnes").value||0)
-let ca=parseInt(document.getElementById("cabos").value||0)
-let ta=parseInt(document.getElementById("tableros").value||0)
+let base=mod*precioModulo*d
 
-return (precioDia*d)+((ar+ca+ta)*precioExtra*d)
+let extras=(tab+cab+arn)*precioExtra*d
+
+return base+extras
 
 }
-
 
 function generar(){
 
@@ -197,15 +198,19 @@ let num=numeroContrato()
 
 let cliente=document.getElementById("cliente").value
 let cedula=document.getElementById("cedula").value
-let marco=document.getElementById("marco").value
-let tijeral=document.getElementById("tijeral").value
+let direccion=document.getElementById("direccion").value
+let telefono=document.getElementById("telefono").value
+let correo=document.getElementById("correo").value
+
+let tamano=document.getElementById("tamano").value
+let mod=document.getElementById("andamios").value
+
+let tab=document.getElementById("tableros").value
+let cab=document.getElementById("cabos").value
+let arn=document.getElementById("arnes").value
 
 let inicio=document.getElementById("inicio").value
 let fin=document.getElementById("fin").value
-
-let ar=document.getElementById("arnes").value
-let ca=document.getElementById("cabos").value
-let ta=document.getElementById("tableros").value
 
 let d=dias()
 let t=total()
@@ -213,25 +218,32 @@ let t=total()
 let txt=
 
 `************************************************
-CONTRATO ALQUILER ANDAMIOS
+              LUMETAL ANDAMIOS
 ************************************************
 
 CONTRATO N° ${num}
 
-PROPIETARIO : ANDAMIOS VALDEZ
-TEL         : 0980292129
-UBICACION   : PAUTE - AZUAY
-
 --------------------------------
 CLIENTE : ${cliente}
 CEDULA  : ${cedula}
+DIR     : ${direccion}
+TEL     : ${telefono}
+EMAIL   : ${correo}
 
-MARCO   : ${marco}
-TIJERAL : ${tijeral}
+--------------------------------
+EQUIPO
 
-TABLEROS 2.2m : ${ta}
-CABOS         : ${ca}
-ARNES         : ${ar}
+TAMAÑO MODULO : ${tamano}
+MODULOS       : ${mod}
+
+EXTRAS
+TABLEROS : ${tab}
+CABOS    : ${cab}
+ARNES    : ${arn}
+
+Cada modulo incluye
+2 MARCOS
+2 TIJERALES
 
 --------------------------------
 INICIO : ${inicio}
@@ -239,20 +251,21 @@ FIN    : ${fin}
 
 DIAS   : ${d}
 
-TOTAL  : $${t}
+VALOR MODULO DIA : $2
 
-Recargo retraso $${recargo}/día
+TOTAL : $${t}
+
+Recargo retraso $${recargo}/dia
 
 --------------------------------
 
 FIRMA CLIENTE
 
-__________________________
+________________________
 
 `
 
 document.getElementById("ticket1").innerText=txt+"TICKET CLIENTE"
-
 document.getElementById("ticket2").innerText=txt+"COPIA NEGOCIO"
 
 document.getElementById("sistema").style.display="none"
@@ -264,14 +277,13 @@ function wts(){
 
 let txt=document.getElementById("ticket1").innerText
 
-let url="https://wa.me/593980292129?text="+encodeURIComponent(txt)
+let url="https://wa.me/593994962062?text="+encodeURIComponent(txt)
 
 window.open(url)
 
 }
 
-
-document.querySelectorAll("input").forEach(e=>{
+document.querySelectorAll("input,select").forEach(e=>{
 e.addEventListener("input",()=>{
 document.getElementById("total").innerText="$"+total()
 })

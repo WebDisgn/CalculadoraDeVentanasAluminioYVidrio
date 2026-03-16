@@ -1,295 +1,85 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>LUMETAL Andamios</title>
-
-<style>
-
-body{
-font-family:Arial;
-background:#f4f4f4;
-padding:10px;
-}
-
-.box{
-background:white;
-padding:10px;
-max-width:420px;
-margin-bottom:10px;
-}
-
-input,select{
-width:100%;
-padding:4px;
-margin-top:4px;
-font-size:13px;
-}
-
-button{
-width:100%;
-padding:6px;
-margin-top:6px;
-cursor:pointer;
-}
-
-#contrato{
-display:none;
-}
-
-.tickets{
-display:flex;
-justify-content:space-between;
-}
-
-.ticket{
-font-family:Courier, monospace;
-font-size:11px;
-white-space:pre;
-width:48%;
-}
-
-.no-print{
-margin-top:10px;
-}
-
-@media print{
-
-body{margin:0;}
-
-.box{display:none;}
-
-.no-print{display:none;}
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="box" id="sistema">
-
-<b>Cliente</b>
-<input id="cliente">
-
-<b>Cédula</b>
-<input id="cedula">
-
-<b>Dirección</b>
-<input id="direccion">
-
-<b>Teléfono</b>
-<input id="telefono">
-
-<b>Correo (opcional)</b>
-<input id="correo">
-
-<b>Tamaño Andamio</b>
-<select id="tamano">
-<option>2m x 1.5m</option>
-<option>1.7m x 0.8m</option>
-<option>1.5m x 1.1m</option>
-</select>
-
-<b>Cantidad de módulos</b>
-<input type="number" id="andamios" value="1">
-
-<b>Tableros</b>
-<input type="number" id="tableros" value="0">
-
-<b>Cabos</b>
-<input type="number" id="cabos" value="0">
-
-<b>Arnés</b>
-<input type="number" id="arnes" value="0">
-
-<b>Inicio</b>
-<input type="date" id="inicio">
-
-<b>Fin</b>
-<input type="date" id="fin">
-
-<p>Total: <b id="total">$0</b></p>
-
-<button onclick="generar()">Generar contrato</button>
-
-</div>
-
-
-<div id="contrato">
-
-<div class="tickets">
-
-<div class="ticket" id="ticket1"></div>
-<div class="ticket" id="ticket2"></div>
-
-</div>
-
-<div class="no-print">
-
-<button onclick="window.print()">Imprimir</button>
-<button onclick="wts()">Enviar WhatsApp</button>
-<button onclick="location.reload()">Nuevo</button>
-
-</div>
-
-</div>
-
-
-<script>
-
-const precioModulo=2
-const precioExtra=1
-const recargo=7
-
-function numeroContrato(){
-
-let n=localStorage.getItem("contrato")
-
-if(!n){n=1}
-else{n=parseInt(n)+1}
-
-localStorage.setItem("contrato",n)
-
-return n.toString().padStart(6,'0')
-
-}
-
-function dias(){
-
-let i=document.getElementById("inicio").value
-let f=document.getElementById("fin").value
-
-if(!i||!f)return 1
-
-let a=new Date(i)
-let b=new Date(f)
-
-let d=(b-a)/(1000*60*60*24)
-
-if(d<1)d=1
-
-return d
-
-}
-
-function total(){
-
-let mod=parseInt(document.getElementById("andamios").value||0)
-
-let tab=parseInt(document.getElementById("tableros").value||0)
-let cab=parseInt(document.getElementById("cabos").value||0)
-let arn=parseInt(document.getElementById("arnes").value||0)
-
-let d=dias()
-
-let base=mod*precioModulo*d
-
-let extras=(tab+cab+arn)*precioExtra*d
-
-return base+extras
-
-}
-
-function generar(){
-
-let num=numeroContrato()
-
-let cliente=document.getElementById("cliente").value
-let cedula=document.getElementById("cedula").value
-let direccion=document.getElementById("direccion").value
-let telefono=document.getElementById("telefono").value
-let correo=document.getElementById("correo").value
-
-let tamano=document.getElementById("tamano").value
-let mod=document.getElementById("andamios").value
-
-let tab=document.getElementById("tableros").value
-let cab=document.getElementById("cabos").value
-let arn=document.getElementById("arnes").value
-
-let inicio=document.getElementById("inicio").value
-let fin=document.getElementById("fin").value
-
-let d=dias()
-let t=total()
-
-let txt=
-
-`************************************************
-              LUMETAL ANDAMIOS
-************************************************
-
-CONTRATO N° ${num}
-
---------------------------------
-CLIENTE : ${cliente}
-CEDULA  : ${cedula}
-DIR     : ${direccion}
-TEL     : ${telefono}
-EMAIL   : ${correo}
-
---------------------------------
-EQUIPO
-
-TAMAÑO MODULO : ${tamano}
-MODULOS       : ${mod}
-
-EXTRAS
-TABLEROS : ${tab}
-CABOS    : ${cab}
-ARNES    : ${arn}
-
-Cada modulo incluye
-2 MARCOS
-2 TIJERALES
-
---------------------------------
-INICIO : ${inicio}
-FIN    : ${fin}
-
-DIAS   : ${d}
-
-VALOR MODULO DIA : $2
-
-TOTAL : $${t}
-
-Recargo retraso $${recargo}/dia
-
---------------------------------
-
-FIRMA CLIENTE
-
-________________________
-
-`
-
-document.getElementById("ticket1").innerText=txt+"TICKET CLIENTE"
-document.getElementById("ticket2").innerText=txt+"COPIA NEGOCIO"
-
-document.getElementById("sistema").style.display="none"
-document.getElementById("contrato").style.display="block"
-
-}
-
-function wts(){
-
-let txt=document.getElementById("ticket1").innerText
-
-let url="https://wa.me/593994962062?text="+encodeURIComponent(txt)
-
-window.open(url)
-
-}
-
-document.querySelectorAll("input,select").forEach(e=>{
-e.addEventListener("input",()=>{
-document.getElementById("total").innerText="$"+total()
-})
-})
-
-</script>
-
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Sistemas Electron Sign In</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="./bootstrap-5.0.2-examples/assets/dist/css/bootstrap.min.css">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    
+<main class="form-signin">
+  <form>
+    <img class="mb-4" src="images/Blue and Black Modern Gradient Software Development Technology Logo (1).svg" alt="" width="200" height="150">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="username" placeholder="name@example.com">
+      <label for="username">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="password" placeholder="Password">
+      <label for="password">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button onclick="login()" class="w-100 btn btn-lg btn-primary">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 29/6/2025</p>
+  </form>
+</main>
+
+
+    <script>
+    const users = [
+      { username: 'admin', password: '1234' },
+      { username: 'user', password: 'abcd' }
+    ];
+
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      const user = users.find(user => user.username === u && user.password === p);
+
+      if (user) {
+        // Puedes guardar algo en localStorage si necesitas
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        window.open("dashboard.html", "_blank"); // Redirección
+      } else {
+        document.getElementById('status').textContent = 'Credenciales incorrectas';
+      }
+    }
+  </script> 
+  </body>
 </html>
