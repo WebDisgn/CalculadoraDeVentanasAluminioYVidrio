@@ -2,296 +2,725 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LUMETAL Andamios</title>
-
 <style>
-
-body{
-font-family:Arial;
-background:#f4f4f4;
-padding:10px;
-}
-
-.box{
-background:white;
-padding:10px;
-max-width:420px;
-margin-bottom:10px;
-}
-
-input,select{
-width:100%;
-padding:4px;
-margin-top:4px;
-font-size:13px;
-}
-
-button{
-width:100%;
-padding:6px;
-margin-top:6px;
-cursor:pointer;
-}
-
-#contrato{
-display:none;
-}
-
-.tickets{
-display:flex;
-justify-content:space-between;
-}
-
-.ticket{
-font-family:Courier, monospace;
-font-size:11px;
-white-space:pre;
-width:48%;
-}
-
-.no-print{
-margin-top:10px;
-}
-
-@media print{
-
-body{margin:0;}
-
-.box{display:none;}
-
-.no-print{display:none;}
-
-}
-
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background: #9e9e9e;
+        font-family: 'Courier New', 'Lucida Console', monospace;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    
+    .ventana {
+        background: #c0c0c0;
+        border: 3px solid #dfdfdf;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        padding: 12px;
+        max-width: 720px;
+        width: 100%;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .barra {
+        background: #000080;
+        color: white;
+        padding: 5px 8px;
+        font-weight: bold;
+        font-size: 13px;
+        margin-bottom: 12px;
+        border: 1px solid #dfdfdf;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        font-family: monospace;
+        text-align: center;
+    }
+    
+    .campo {
+        margin-bottom: 6px;
+        background: #b0b0b0;
+        padding: 4px 6px;
+        border: 1px inset #e0e0e0;
+    }
+    
+    label {
+        display: block;
+        font-size: 10px;
+        font-weight: bold;
+        font-family: monospace;
+        text-transform: uppercase;
+        color: #1a2a3a;
+    }
+    
+    input, select, textarea {
+        width: 100%;
+        background: #f5f5f5;
+        border: 2px inset #e0e0e0;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        padding: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 11px;
+        font-weight: bold;
+    }
+    
+    textarea {
+        resize: vertical;
+        min-height: 50px;
+    }
+    
+    .fila-doble {
+        display: flex;
+        gap: 8px;
+    }
+    .fila-doble .campo {
+        flex: 1;
+    }
+    
+    .fila-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #b0b0b0;
+        padding: 6px;
+        border: 1px inset #e0e0e0;
+        margin-bottom: 6px;
+    }
+    .fila-check label {
+        display: inline;
+        margin: 0;
+        font-size: 11px;
+    }
+    .fila-check input {
+        width: auto;
+        margin: 0;
+    }
+    
+    .tabla-andamios {
+        background: #a0a0a0;
+        margin-bottom: 6px;
+        border: 1px inset #e0e0e0;
+        overflow-x: auto;
+    }
+    
+    .tabla-andamios table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+        font-family: monospace;
+    }
+    
+    .tabla-andamios th, .tabla-andamios td {
+        border: 1px solid #808080;
+        padding: 4px;
+        text-align: center;
+    }
+    
+    .tabla-andamios th {
+        background: #808080;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .tabla-andamios input {
+        width: 70px;
+        padding: 2px;
+        font-size: 10px;
+        text-align: center;
+    }
+    
+    .btn-mini {
+        background: #c0c0c0;
+        border: 2px solid #ffffff;
+        border-right-color: #404040;
+        border-bottom-color: #404040;
+        padding: 2px 6px;
+        font-size: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .total-block {
+        background: #a0a0a0;
+        margin: 10px 0;
+        padding: 6px;
+        text-align: right;
+        border: 2px inset #e0e0e0;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .total-block span {
+        background: black;
+        color: #0f0;
+        padding: 2px 6px;
+        font-size: 16px;
+    }
+    
+    .boton {
+        background: #c0c0c0;
+        border: 2px solid #ffffff;
+        border-right-color: #404040;
+        border-bottom-color: #404040;
+        padding: 6px;
+        margin: 4px 0;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 12px;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .boton:active {
+        border: 2px solid #404040;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+        background: #a8a8a8;
+    }
+    
+    .acciones {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+    }
+    
+    .tickets-wrap {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+    }
+    
+    .ticket {
+        background: #fff;
+        font-family: 'Courier New', 'Lucida Console', monospace;
+        white-space: pre-wrap;
+        padding: 12px;
+        border: 1px solid #000;
+        width: 49%;
+        min-width: 280px;
+        line-height: 1.35;
+        color: #000;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    
+    /* TAMAÑO DE LETRA PARA IMPRESIÓN - MÁS GRANDE */
+    @media print {
+        body {
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+        
+        #sistemaPanel {
+            display: none !important;
+        }
+        
+        #contratoPanel {
+            display: block !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+        
+        .ventana {
+            max-width: 100%;
+            border: none;
+            padding: 0;
+            margin: 0;
+            background: white;
+            box-shadow: none;
+        }
+        
+        .barra {
+            display: none !important;
+        }
+        
+        .ticket {
+            width: 48%;
+            border: 1px solid #000;
+            font-size: 11px !important;
+            padding: 8px !important;
+            page-break-inside: avoid;
+            background: white;
+            line-height: 1.4 !important;
+            box-shadow: none;
+            font-family: 'Courier New', 'Lucida Console', monospace !important;
+        }
+        
+        .tickets-wrap {
+            display: flex;
+            page-break-after: avoid;
+            margin: 0;
+            padding: 8px;
+            gap: 12px;
+        }
+        
+        .no-print {
+            display: none !important;
+        }
+        
+        .status {
+            display: none;
+        }
+        
+        /* Asegurar que el contenido no se corte */
+        @page {
+            size: letter;
+            margin: 0.3in;
+        }
+    }
+    
+    /* Estilo para pantalla también más legible */
+    .ticket {
+        font-size: 9px;
+    }
+    
+    .status {
+        font-size: 8px;
+        background: #808080;
+        color: #ffffc0;
+        padding: 2px;
+        text-align: center;
+        margin-top: 6px;
+    }
+    
+    hr {
+        margin: 4px 0;
+        border-top: 1px solid #909090;
+    }
+    
+    .badge {
+        background: #000080;
+        color: white;
+        padding: 2px 4px;
+        font-size: 9px;
+        display: inline-block;
+        margin-bottom: 4px;
+    }
 </style>
 </head>
-
 <body>
 
-<div class="box" id="sistema">
-
-<b>Cliente</b>
-<input id="cliente">
-
-<b>Cédula</b>
-<input id="cedula">
-
-<b>Dirección</b>
-<input id="direccion">
-
-<b>Teléfono</b>
-<input id="telefono">
-
-<b>Correo (opcional)</b>
-<input id="correo">
-
-<b>Tamaño Andamio</b>
-<select id="tamano">
-<option>2m x 1.5m</option>
-<option>1.7m x 0.8m</option>
-<option>1.5m x 1.1m</option>
-</select>
-
-<b>Cantidad de módulos</b>
-<input type="number" id="andamios" value="1">
-
-<b>Tableros</b>
-<input type="number" id="tableros" value="0">
-
-<b>Cabos</b>
-<input type="number" id="cabos" value="0">
-
-<b>Arnés</b>
-<input type="number" id="arnes" value="0">
-
-<b>Inicio</b>
-<input type="date" id="inicio">
-
-<b>Fin</b>
-<input type="date" id="fin">
-
-<p>Total: <b id="total">$0</b></p>
-
-<button onclick="generar()">Generar contrato</button>
-
+<div class="ventana" id="sistemaPanel">
+    <div class="barra">LUMETAL ANDAMIOS - SISTEMA PROFESIONAL</div>
+    
+    <div class="campo"><label>CLIENTE *</label><input type="text" id="cliente" placeholder="NOMBRE COMPLETO"></div>
+    <div class="fila-doble">
+        <div class="campo"><label>CEDULA / RUC</label><input type="text" id="cedula" placeholder="NUMERO"></div>
+        <div class="campo"><label>TELEFONO *</label><input type="tel" id="telefono" placeholder="099XXXXXXX"></div>
+    </div>
+    <div class="fila-doble">
+        <div class="campo"><label>DIRECCION</label><input type="text" id="direccion" placeholder="DIRECCION COMPLETA"></div>
+        <div class="campo"><label>CORREO</label><input type="email" id="correo" placeholder="EMAIL"></div>
+    </div>
+    
+    <div class="badge">📐 MÚLTIPLES ANDAMIOS</div>
+    <div class="tabla-andamios">
+        <table id="tablaAndamios">
+            <thead>
+                <tr><th>MEDIDA</th><th>CANT</th><th>P/DIA</th><th>SUB</th><th></th></tr>
+            </thead>
+            <tbody id="tbodyAndamios">
+                <tr>
+                    <td><select class="sel-medida" style="width:110px"><option>2m x 1.5m</option><option>1.7m x 0.8m</option><option>1.5m x 1.1m</option></select></td>
+                    <td><input type="number" class="inp-cant" value="1" min="1" style="width:55px"></td>
+                    <td>$2</td>
+                    <td class="subtotal-mod">$0</td>
+                    <td><button type="button" class="btn-mini btn-eliminar" style="display:none">🗑️</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="button" class="boton" id="btnAgregarMedida" style="margin-top:0; padding:3px; font-size:10px">+ AGREGAR OTRA MEDIDA</button>
+    
+    <div class="fila-doble">
+        <div class="campo"><label>TABLEROS EXTRA</label><input type="number" id="tableros" value="0" min="0"></div>
+        <div class="campo"><label>CABOS EXTRA</label><input type="number" id="cabos" value="0" min="0"></div>
+        <div class="campo"><label>ARNES EXTRA</label><input type="number" id="arnes" value="0" min="0"></div>
+    </div>
+    
+    <div class="fila-doble">
+        <div class="campo"><label>TRANSPORTE ($)</label><input type="number" id="transporte" value="0" min="0" step="0.5"></div>
+        <div class="campo"><label>DEPÓSITO GARANTÍA ($)</label><input type="number" id="deposito" value="0" min="0" step="5"></div>
+    </div>
+    <div class="fila-doble">
+        <div class="campo"><label>FECHA INICIO *</label><input type="date" id="inicio"></div>
+        <div class="campo"><label>FECHA FIN *</label><input type="date" id="fin"></div>
+    </div>
+    
+    <div class="fila-check">
+        <input type="checkbox" id="descuento6">
+        <label>APLICAR DESCUENTO 6%</label>
+    </div>
+    <div class="campo"><label>NOTAS ADICIONALES</label><textarea id="notas" placeholder="Observaciones, condiciones especiales, estado del equipo..."></textarea></div>
+    
+    <div class="total-block">
+        SUBTOTAL: <span id="subtotal">$0</span> &nbsp;|&nbsp;
+        TOTAL: <span id="total">$0</span>
+    </div>
+    <div class="status">💎 GARANTÍA: <span id="depositoMostrar">$0</span> (REEMBOLSABLE) | RECARGO: $7/DÍA</div>
+    
+    <button class="boton" id="btnGenerar">>> GENERAR CONTRATO <<</button>
 </div>
 
-
-<div id="contrato">
-
-<div class="tickets">
-
-<div class="ticket" id="ticket1"></div>
-<div class="ticket" id="ticket2"></div>
-
+<div id="contratoPanel" style="display: none;">
+    <div class="ventana" style="max-width: 100%; padding: 0; background: white;">
+        <div class="tickets-wrap">
+            <div class="ticket" id="ticket1"></div>
+            <div class="ticket" id="ticket2"></div>
+        </div>
+        <div class="acciones no-print" style="padding: 10px; background: #c0c0c0;">
+            <button class="boton" id="btnImprimir">🖨️ IMPRIMIR</button>
+            <button class="boton" id="btnWhatsapp">📱 WHATSAPP</button>
+            <button class="boton" id="btnNuevo">🔄 NUEVO</button>
+        </div>
+        <div class="status no-print">TICKET IZQ: CLIENTE | TICKET DER: COPIA NEGOCIO</div>
+    </div>
 </div>
-
-<div class="no-print">
-
-<button onclick="window.print()">Imprimir</button>
-<button onclick="wts()">Enviar WhatsApp</button>
-<button onclick="location.reload()">Nuevo</button>
-
-</div>
-
-</div>
-
 
 <script>
-
-const precioModulo=2
-const precioExtra=1
-const recargo=7
-
-function numeroContrato(){
-
-let n=localStorage.getItem("contrato")
-
-if(!n){n=1}
-else{n=parseInt(n)+1}
-
-localStorage.setItem("contrato",n)
-
-return n.toString().padStart(6,'0')
-
-}
-
-function dias(){
-
-let i=document.getElementById("inicio").value
-let f=document.getElementById("fin").value
-
-if(!i||!f)return 1
-
-let a=new Date(i)
-let b=new Date(f)
-
-let d=(b-a)/(1000*60*60*24)
-
-if(d<1)d=1
-
-return d
-
-}
-
-function total(){
-
-let mod=parseInt(document.getElementById("andamios").value||0)
-
-let tab=parseInt(document.getElementById("tableros").value||0)
-let cab=parseInt(document.getElementById("cabos").value||0)
-let arn=parseInt(document.getElementById("arnes").value||0)
-
-let d=dias()
-
-let base=mod*precioModulo*d
-
-let extras=(tab+cab+arn)*precioExtra*d
-
-return base+extras
-
-}
-
-function generar(){
-
-let num=numeroContrato()
-
-let cliente=document.getElementById("cliente").value
-let cedula=document.getElementById("cedula").value
-let direccion=document.getElementById("direccion").value
-let telefono=document.getElementById("telefono").value
-let correo=document.getElementById("correo").value
-
-let tamano=document.getElementById("tamano").value
-let mod=document.getElementById("andamios").value
-
-let tab=document.getElementById("tableros").value
-let cab=document.getElementById("cabos").value
-let arn=document.getElementById("arnes").value
-
-let inicio=document.getElementById("inicio").value
-let fin=document.getElementById("fin").value
-
-let d=dias()
-let t=total()
-
-let txt=
-
-`************************************************
-              LUMETAL ANDAMIOS
-************************************************
-
-CONTRATO N° ${num}
-
---------------------------------
-CLIENTE : ${cliente}
-CEDULA  : ${cedula}
-DIR     : ${direccion}
-TEL     : ${telefono}
-EMAIL   : ${correo}
-
---------------------------------
-EQUIPO
-
-TAMAÑO MODULO : ${tamano}
-MODULOS       : ${mod}
-
-EXTRAS
-TABLEROS : ${tab}
-CABOS    : ${cab}
-ARNES    : ${arn}
-
-Cada modulo incluye
-2 MARCOS
-2 TIJERALES
-
---------------------------------
-INICIO : ${inicio}
-FIN    : ${fin}
-
-DIAS   : ${d}
-
-VALOR MODULO DIA : $2
-
-TOTAL : $${t}
-
-Recargo retraso $${recargo}/dia
-
---------------------------------
-
-FIRMA CLIENTE
-
-________________________
-
-`
-
-document.getElementById("ticket1").innerText=txt+"TICKET CLIENTE"
-document.getElementById("ticket2").innerText=txt+"COPIA NEGOCIO"
-
-document.getElementById("sistema").style.display="none"
-document.getElementById("contrato").style.display="block"
-
-}
-
-function wts(){
-
-let txt = document.getElementById("ticket1").innerText;
-let tel = document.getElementById("telefono").value;
-
-tel = tel.substring(1); // quita el primer 0
-
-let url = `https://wa.me/593${tel}?text=${encodeURIComponent(txt)}`;
-
-window.open(url, "_blank");
-
-}
-document.querySelectorAll("input,select").forEach(e=>{
-e.addEventListener("input",()=>{
-document.getElementById("total").innerText="$"+total()
-})
-})
-
+    // ========== SONIDOS ==========
+    function playBeep(freq = 800, duration = 100, volume = 0.2) {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            oscillator.connect(gain);
+            gain.connect(audioCtx.destination);
+            oscillator.frequency.value = freq;
+            gain.gain.value = volume;
+            oscillator.type = 'sine';
+            oscillator.start();
+            gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration / 1000);
+            oscillator.stop(audioCtx.currentTime + duration / 1000);
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        } catch(e) { console.log("Audio no soportado"); }
+    }
+    function playClick() { playBeep(880, 50, 0.12); }
+    function playSuccess() { playBeep(1200, 80, 0.18); setTimeout(() => playBeep(1500, 80, 0.18), 70); }
+    function playError() { playBeep(400, 200, 0.2); }
+    
+    const PRECIO_EXTRA = 1;
+    const RECARGO = 7;
+    
+    const sistemaDiv = document.getElementById('sistemaPanel');
+    const contratoDiv = document.getElementById('contratoPanel');
+    const subtotalSpan = document.getElementById('subtotal');
+    const totalSpan = document.getElementById('total');
+    const depositoMostrar = document.getElementById('depositoMostrar');
+    const tbodyAndamios = document.getElementById('tbodyAndamios');
+    
+    const inputCliente = document.getElementById('cliente');
+    const inputCedula = document.getElementById('cedula');
+    const inputDireccion = document.getElementById('direccion');
+    const inputTelefono = document.getElementById('telefono');
+    const inputCorreo = document.getElementById('correo');
+    const inputTableros = document.getElementById('tableros');
+    const inputCabos = document.getElementById('cabos');
+    const inputArnes = document.getElementById('arnes');
+    const inputTransporte = document.getElementById('transporte');
+    const inputDeposito = document.getElementById('deposito');
+    const inputInicio = document.getElementById('inicio');
+    const inputFin = document.getElementById('fin');
+    const checkDescuento = document.getElementById('descuento6');
+    const textareaNotas = document.getElementById('notas');
+    
+    function actualizarSubtitulosFila(fila) {
+        let cant = parseInt(fila.querySelector('.inp-cant').value) || 0;
+        let subtotal = cant * 2;
+        fila.querySelector('.subtotal-mod').innerText = '$' + subtotal;
+        return subtotal;
+    }
+    
+    function calcularTotalModulos() {
+        let total = 0;
+        document.querySelectorAll('#tbodyAndamios tr').forEach(fila => {
+            total += parseInt(fila.querySelector('.inp-cant').value) || 0;
+        });
+        return total;
+    }
+    
+    function obtenerDetalleAndamios() {
+        let detalles = [];
+        document.querySelectorAll('#tbodyAndamios tr').forEach(fila => {
+            let medida = fila.querySelector('.sel-medida').value;
+            let cant = parseInt(fila.querySelector('.inp-cant').value) || 0;
+            if (cant > 0) detalles.push({ medida, cantidad: cant });
+        });
+        return detalles;
+    }
+    
+    function calcDias() {
+        let ini = inputInicio.value, fin = inputFin.value;
+        if (!ini || !fin) return 1;
+        let a = new Date(ini), b = new Date(fin);
+        if (isNaN(a) || isNaN(b)) return 1;
+        let diff = (b - a) / 86400000;
+        return diff < 0 ? 1 : Math.floor(diff) + 1;
+    }
+    
+    function calcSubtotal() {
+        let totalModulos = calcularTotalModulos();
+        let dias = calcDias();
+        let baseModulos = totalModulos * 2 * dias;
+        let extras = (parseInt(inputTableros.value) + parseInt(inputCabos.value) + parseInt(inputArnes.value)) * PRECIO_EXTRA * dias;
+        return baseModulos + extras;
+    }
+    
+    function calcTotal() {
+        let subtotal = calcSubtotal();
+        let transporte = parseFloat(inputTransporte.value) || 0;
+        let total = subtotal + transporte;
+        if (checkDescuento.checked) total = total * 0.94;
+        return Math.round(total * 100) / 100;
+    }
+    
+    function actualizarTotales() {
+        let subtotal = calcSubtotal();
+        let total = calcTotal();
+        let deposito = parseFloat(inputDeposito.value) || 0;
+        subtotalSpan.innerText = "$" + subtotal.toFixed(2);
+        totalSpan.innerText = "$" + total.toFixed(2);
+        depositoMostrar.innerText = "$" + deposito.toFixed(2);
+        document.querySelectorAll('#tbodyAndamios tr').forEach(fila => actualizarSubtitulosFila(fila));
+    }
+    
+    function agregarMedida() {
+        let nuevaFila = document.createElement('tr');
+        nuevaFila.innerHTML = `
+            <td><select class="sel-medida" style="width:110px"><option>2m x 1.5m</option><option>1.7m x 0.8m</option><option>1.5m x 1.1m</option></select></td>
+            <td><input type="number" class="inp-cant" value="1" min="1" style="width:55px"></td>
+            <td>$2</td>
+            <td class="subtotal-mod">$0</td>
+            <td><button type="button" class="btn-mini btn-eliminar">🗑️</button></td>
+        `;
+        tbodyAndamios.appendChild(nuevaFila);
+        nuevaFila.querySelector('.inp-cant').addEventListener('input', () => { actualizarSubtitulosFila(nuevaFila); actualizarTotales(); });
+        nuevaFila.querySelector('.sel-medida').addEventListener('change', actualizarTotales);
+        nuevaFila.querySelector('.btn-eliminar').addEventListener('click', () => {
+            if (document.querySelectorAll('#tbodyAndamios tr').length > 1) {
+                nuevaFila.remove();
+                actualizarTotales();
+            } else alert("Debe haber al menos un andamio");
+        });
+        actualizarTotales();
+        playClick();
+    }
+    
+    function getContratoNum() {
+        let n = localStorage.getItem("lumetal_contrato");
+        if (!n) n = 1;
+        else n = parseInt(n) + 1;
+        localStorage.setItem("lumetal_contrato", n);
+        return n.toString().padStart(6, '0');
+    }
+    
+    function fmtFecha(fechaISO) {
+        if (!fechaISO) return "__/__/____";
+        let p = fechaISO.split('-');
+        return `${p[2]}/${p[1]}/${p[0]}`;
+    }
+    
+    function generarTicket() {
+        let num = getContratoNum();
+        let cliente = (inputCliente.value.trim() || "ANONIMO").substring(0, 32);
+        let cedula = (inputCedula.value.trim() || "---").substring(0, 32);
+        let direccion = (inputDireccion.value.trim() || "---").substring(0, 32);
+        let telefono = inputTelefono.value.trim() || "---";
+        let correo = (inputCorreo.value.trim() || "---").substring(0, 22);
+        
+        let andamiosTexto = "";
+        obtenerDetalleAndamios().forEach(a => {
+            andamiosTexto += `  ${a.cantidad}x ${a.medida}\n`;
+        });
+        
+        let tab = parseInt(inputTableros.value) || 0;
+        let cab = parseInt(inputCabos.value) || 0;
+        let arn = parseInt(inputArnes.value) || 0;
+        let transporteVal = parseFloat(inputTransporte.value) || 0;
+        let depositoVal = parseFloat(inputDeposito.value) || 0;
+        let inicio = fmtFecha(inputInicio.value);
+        let fin = fmtFecha(inputFin.value);
+        let dias = calcDias();
+        let subtotal = calcSubtotal();
+        let total = calcTotal();
+        let descuentoAplicado = checkDescuento.checked;
+        let descuentoVal = descuentoAplicado ? (subtotal + transporteVal) * 0.06 : 0;
+        let notas = textareaNotas.value.trim() || "NINGUNA";
+        let totalModulos = calcularTotalModulos();
+        let baseMod = totalModulos * 2 * dias;
+        let extrasTotal = (tab + cab + arn) * PRECIO_EXTRA * dias;
+        let fechaHoy = fmtFecha(new Date().toISOString().split('T')[0]);
+        
+        let descuentoLinea = descuentoAplicado ? `DESCUENTO 6%:    -$${descuentoVal.toFixed(2)}\n` : "";
+        
+        // TICKET CLIENTE - LETRA CLARA Y COMPACTA PARA MEDIA HOJA
+        let ticketCli = 
+`╔════════════════════════════════════════════════╗
+║              LUMETAL ANDAMIOS               ║
+║              CONTRATO #${num}                  ║
+╠════════════════════════════════════════════════╣
+║ CLIENTE: ${cliente}║
+║ CEDULA:  ${cedula}║
+║ DIR:     ${direccion}║
+║ TEL: ${telefono.padEnd(18)}  CORREO: ${correo}║
+╠════════════════════════════════════════════════╣
+║ ANDAMIOS:                                     ║
+${andamiosTexto}║ EXTRAS:  TAB:${tab}   CAB:${cab}   ARN:${arn}   ║
+║ TRANSPORTE: $${transporteVal.toFixed(2).padStart(8)}                    ║
+╠════════════════════════════════════════════════╣
+║ INICIO: ${inicio}      FIN: ${fin}      DIAS: ${dias}║
+║ BASE MODULOS:   $${baseMod.toFixed(2).padStart(10)}                ║
+║ EXTRAS:         $${extrasTotal.toFixed(2).padStart(10)}                ║
+║ SUBTOTAL:       $${subtotal.toFixed(2).padStart(10)}                ║
+║ TRANSPORTE:     $${transporteVal.toFixed(2).padStart(10)}                ║
+${descuentoLinea}╠════════════════════════════════════════════════╣
+║ TOTAL A PAGAR: $${total.toFixed(2).padStart(12)}              ║
+║ GARANTIA:      $${depositoVal.toFixed(2).padStart(12)} (REEMBOLSABLE)   ║
+╠════════════════════════════════════════════════╣
+║ NOTAS: ${notas.substring(0,42)}║
+╠════════════════════════════════════════════════╣
+║ RECARGO RETRASO: $${RECARGO}/DIA    FECHA: ${fechaHoy}║
+║ FIRMA: ___________________________________║
+╚════════════════════════════════════════════════╝`;
+        
+        // TICKET NEGOCIO
+        let ticketNeg = 
+`╔════════════════════════════════════════════════╗
+║       LUMETAL ANDAMIOS - COPIA NEGOCIO      ║
+║              CONTRATO #${num}                  ║
+╠════════════════════════════════════════════════╣
+║ CLIENTE: ${cliente}║
+║ CEDULA:  ${cedula}║
+║ DIR:     ${direccion}║
+║ TEL: ${telefono.padEnd(18)}  CORREO: ${correo}║
+╠════════════════════════════════════════════════╣
+║ ANDAMIOS:                                     ║
+${andamiosTexto}║ EXTRAS: T:${tab} C:${cab} A:${arn}   TRANSP:$${transporteVal.toFixed(2)}║
+╠════════════════════════════════════════════════╣
+║ INICIO: ${inicio}   FIN: ${fin}   DIAS: ${dias}║
+║ DETALLE:                                      ║
+║   MODULOS:  $${baseMod.toFixed(2).padStart(10)}                    ║
+║   EXTRAS:   $${extrasTotal.toFixed(2).padStart(10)}                    ║
+║   SUBTOTAL: $${subtotal.toFixed(2).padStart(10)}                    ║
+║   TRANSPORTE:$${transporteVal.toFixed(2).padStart(10)}                    ║
+${descuentoLinea}╠════════════════════════════════════════════════╣
+║ TOTAL: $${total.toFixed(2).padStart(12)}   GARANTIA:$${depositoVal.toFixed(2)}║
+╠════════════════════════════════════════════════╣
+║ NOTAS: ${notas.substring(0,42)}║
+╠════════════════════════════════════════════════╣
+║ RECARGO: $${RECARGO}/DIA   EMISION: ${fechaHoy}║
+║ VENDEDOR: ________________________________║
+╚════════════════════════════════════════════════╝`;
+        
+        return { cliente: ticketCli, negocio: ticketNeg };
+    }
+    
+    function generar() {
+        playClick();
+        if (!inputCliente.value.trim()) { alert("INGRESE NOMBRE DEL CLIENTE"); playError(); inputCliente.focus(); return; }
+        if (!inputTelefono.value.trim()) { alert("INGRESE TELEFONO"); playError(); inputTelefono.focus(); return; }
+        if (calcularTotalModulos() < 1) { alert("AGREGUE AL MENOS UN ANDAMIO"); playError(); return; }
+        if (!inputInicio.value || !inputFin.value) { alert("SELECCIONE FECHAS"); playError(); return; }
+        if (new Date(inputFin.value) < new Date(inputInicio.value)) { alert("FECHA FIN NO PUEDE SER ANTERIOR"); playError(); return; }
+        
+        let tickets = generarTicket();
+        document.getElementById("ticket1").innerText = tickets.cliente;
+        document.getElementById("ticket2").innerText = tickets.negocio;
+        sistemaDiv.style.display = "none";
+        contratoDiv.style.display = "block";
+        playSuccess();
+    }
+    
+    function imprimir() {
+        playClick();
+        if (!document.getElementById("ticket1").innerText.trim()) { alert("PRIMERO GENERE EL CONTRATO"); playError(); return; }
+        sistemaDiv.style.display = "none";
+        contratoDiv.style.display = "block";
+        setTimeout(() => { window.print(); playSuccess(); }, 50);
+    }
+    
+    function enviarWhats() {
+        playClick();
+        let telefonoRaw = inputTelefono.value.trim();
+        if (!telefonoRaw) { alert("INGRESE TELEFONO"); playError(); return; }
+        let txtTicket = document.getElementById("ticket1").innerText;
+        if (!txtTicket.trim()) { alert("GENERE EL CONTRATO"); playError(); return; }
+        let num = telefonoRaw.replace(/\D/g, '');
+        if (num.startsWith('0')) num = num.substring(1);
+        if (!num.startsWith('593')) num = '593' + num;
+        window.open(`https://wa.me/${num}?text=${encodeURIComponent(txtTicket)}`, "_blank");
+        playSuccess();
+    }
+    
+    function reiniciar() {
+        playClick();
+        inputCliente.value = ''; inputCedula.value = ''; inputDireccion.value = ''; inputTelefono.value = ''; inputCorreo.value = '';
+        inputTableros.value = '0'; inputCabos.value = '0'; inputArnes.value = '0'; inputTransporte.value = '0'; inputDeposito.value = '0';
+        checkDescuento.checked = false; textareaNotas.value = '';
+        tbodyAndamios.innerHTML = '';
+        let filaBase = document.createElement('tr');
+        filaBase.innerHTML = `<td><select class="sel-medida"><option>2m x 1.5m</option><option>1.7m x 0.8m</option><option>1.5m x 1.1m</option></select></td>
+            <td><input type="number" class="inp-cant" value="1" min="1" style="width:55px"></td><td>$2</td><td class="subtotal-mod">$0</td>
+            <td><button type="button" class="btn-mini btn-eliminar" style="display:none">🗑️</button></td>`;
+        tbodyAndamios.appendChild(filaBase);
+        filaBase.querySelector('.inp-cant').addEventListener('input', () => { actualizarSubtitulosFila(filaBase); actualizarTotales(); });
+        filaBase.querySelector('.sel-medida').addEventListener('change', actualizarTotales);
+        let hoy = new Date(), manana = new Date(); manana.setDate(manana.getDate() + 1);
+        inputInicio.value = hoy.toISOString().split('T')[0];
+        inputFin.value = manana.toISOString().split('T')[0];
+        actualizarTotales();
+        sistemaDiv.style.display = "block";
+        contratoDiv.style.display = "none";
+        playBeep(660, 80, 0.12);
+    }
+    
+    function bindEvents() {
+        [inputTableros, inputCabos, inputArnes, inputTransporte, inputDeposito, inputInicio, inputFin, checkDescuento].forEach(el => {
+            el.addEventListener('input', actualizarTotales);
+            el.addEventListener('change', actualizarTotales);
+        });
+        let filaInicial = document.querySelector('#tbodyAndamios tr');
+        if (filaInicial) {
+            filaInicial.querySelector('.inp-cant').addEventListener('input', () => { actualizarSubtitulosFila(filaInicial); actualizarTotales(); });
+            filaInicial.querySelector('.sel-medida').addEventListener('change', actualizarTotales);
+        }
+    }
+    
+    function setDefaultDates() {
+        if (!inputInicio.value) inputInicio.value = new Date().toISOString().split('T')[0];
+        if (!inputFin.value) {
+            let manana = new Date(); manana.setDate(manana.getDate() + 1);
+            inputFin.value = manana.toISOString().split('T')[0];
+        }
+        actualizarTotales();
+    }
+    
+    bindEvents();
+    setDefaultDates();
+    document.getElementById('btnAgregarMedida').addEventListener('click', agregarMedida);
+    document.getElementById('btnGenerar').addEventListener('click', generar);
+    document.getElementById('btnImprimir').addEventListener('click', imprimir);
+    document.getElementById('btnWhatsapp').addEventListener('click', enviarWhats);
+    document.getElementById('btnNuevo').addEventListener('click', reiniciar);
 </script>
-
 </body>
 </html>
