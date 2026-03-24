@@ -275,14 +275,16 @@ document.getElementById("contrato").style.display="block"
 
 function wts(){
 
-let txt=document.getElementById("ticket1").innerText
+let txt = document.getElementById("ticket1").innerText;
+let tel = document.getElementById("telefono").value;
 
-let url="https://wa.me/593994962062?text="+encodeURIComponent(txt)
+tel = tel.substring(1); // quita el primer 0
 
-window.open(url)
+let url = `https://wa.me/593${tel}?text=${encodeURIComponent(txt)}`;
+
+window.open(url, "_blank");
 
 }
-
 document.querySelectorAll("input,select").forEach(e=>{
 e.addEventListener("input",()=>{
 document.getElementById("total").innerText="$"+total()
