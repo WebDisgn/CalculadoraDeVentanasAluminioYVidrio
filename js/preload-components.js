@@ -1,6 +1,6 @@
     async function cargarComponentes() {
       try {
-        const nav = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/nav.html');
+        const nav = await fetch('https://donpercha.com/components/nav.html');
         document.getElementById('nav-container').innerHTML = await nav.text();
 
         const footer = await fetch('https://webdisgn.github.io/CalculadoraDeVentanasAluminioYVidrio/components/footer.html');
