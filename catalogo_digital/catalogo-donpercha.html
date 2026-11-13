@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0879bd">
+  <title>Catálogo | DonPercha</title>
+  <meta name="description" content="Explora el catálogo de productos DonPercha. Calidad, variedad y atención personalizada.">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --dp-blue: #0879bd;
+      --dp-blue-dark: #075b8e;
+      --dp-blue-soft: #eaf5fc;
+      --dp-gray: #626b73;
+      --dp-gray-dark: #343b40;
+      --dp-bg: #f4f6f8;
+      --dp-white: #fff;
+      --dp-radius: 18px;
+      --dp-shadow: 0 10px 30px rgba(22, 48, 66, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--dp-bg);
+      color: var(--dp-gray-dark);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .navbar { background: rgba(255,255,255,.96); backdrop-filter: blur(12px); }
+    .brand-mark {
+      display:inline-grid; place-items:center; width:42px; height:42px;
+      border-radius:13px; background:var(--dp-blue); color:#fff;
+      font-weight:900; letter-spacing:-1px;
+    }
+    .brand-name { color:var(--dp-gray-dark); font-weight:850; letter-spacing:-.7px; }
+    .brand-name span { color:var(--dp-blue); }
+    .hero {
+      background: radial-gradient(circle at 85% 15%, rgba(255,255,255,.18), transparent 30%),
+                  linear-gradient(120deg, #075b8e, #0879bd 58%, #319bd0);
+      color:#fff; border-radius:0 0 30px 30px; overflow:hidden;
+    }
+    .hero .eyebrow { text-transform:uppercase; letter-spacing:2px; font-size:.75rem; font-weight:800; opacity:.8; }
+    .hero h1 { font-weight:850; letter-spacing:-1.5px; line-height:1.04; }
+    .hero p { color:rgba(255,255,255,.84); max-width:560px; }
+    .hero-chip { border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.12); }
+    .catalog-shell { margin-top:-24px; position:relative; z-index:2; }
+    .toolbar {
+      background:#fff; border:1px solid #e9eef2; border-radius:var(--dp-radius);
+      box-shadow:var(--dp-shadow); padding:18px;
+    }
+    .search-wrap { position:relative; }
+    .search-wrap .bi-search { position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#8b969e; }
+    .search-wrap input { padding-left:43px; min-height:48px; border-radius:13px; border-color:#e4e9ed; }
+    .form-select { min-height:48px; border-radius:13px; border-color:#e4e9ed; }
+    .filter-btn {
+      border:1px solid #e1e7eb; color:var(--dp-gray); background:#fff;
+      border-radius:999px; padding:9px 16px; font-size:.88rem; font-weight:700;
+      transition:.2s ease;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      color:#fff; background:var(--dp-blue); border-color:var(--dp-blue);
+    }
+    .section-heading { font-weight:850; letter-spacing:-.7px; }
+    .product-card {
+      height:100%; background:#fff; border:1px solid #e9eef2; border-radius:17px;
+      overflow:hidden; box-shadow:0 5px 18px rgba(22,48,66,.045);
+      transition:transform .22s ease, box-shadow .22s ease;
+    }
+    .product-card:hover { transform:translateY(-5px); box-shadow:var(--dp-shadow); }
+    .product-image {
+      width:100%; aspect-ratio:1/1; object-fit:cover; display:block;
+      background:linear-gradient(135deg,#edf3f6,#dfe8ee);
+    }
+    .image-wrap { position:relative; background:#edf2f5; }
+    .product-tag {
+      position:absolute; top:13px; left:13px; padding:6px 10px;
+      background:#fff; color:var(--dp-blue-dark); border-radius:999px;
+      font-size:.7rem; font-weight:850; box-shadow:0 3px 12px #00000012;
+    }
+    .product-body { padding:16px; }
+    .product-category { color:var(--dp-blue); font-size:.72rem; font-weight:850; text-transform:uppercase; letter-spacing:1px; }
+    .product-title { font-weight:800; font-size:1rem; line-height:1.3; min-height:2.6em; }
+    .product-description { color:#7b858d; font-size:.85rem; min-height:2.6em; }
+    .product-price { font-size:1.15rem; font-weight:900; color:var(--dp-gray-dark); }
+    .btn-dp { background:var(--dp-blue); border-color:var(--dp-blue); color:#fff; font-weight:750; border-radius:11px; }
+    .btn-dp:hover { background:var(--dp-blue-dark); border-color:var(--dp-blue-dark); color:#fff; }
+    .btn-outline-dp { color:var(--dp-blue); border:1px solid #b8d9ec; font-weight:750; border-radius:11px; }
+    .btn-outline-dp:hover { background:var(--dp-blue-soft); color:var(--dp-blue-dark); border-color:#b8d9ec; }
+    .empty-state { background:#fff; border:1px dashed #cbd6dd; border-radius:18px; padding:55px 20px; }
+    .benefit {
+      height:100%; padding:20px; background:#fff; border:1px solid #e9eef2;
+      border-radius:16px;
+    }
+    .benefit-icon { width:44px; height:44px; display:grid; place-items:center; border-radius:13px; background:var(--dp-blue-soft); color:var(--dp-blue); font-size:1.25rem; }
+    footer { background:#252d33; color:#d5dde2; }
+    footer a { color:#fff; text-decoration:none; }
+    .whatsapp-float {
+      position:fixed; right:20px; bottom:20px; z-index:1040; width:58px; height:58px;
+      display:grid; place-items:center; border-radius:50%; color:#fff; background:#20b967;
+      box-shadow:0 8px 24px #0003; font-size:1.7rem; text-decoration:none;
+    }
+    .modal-content { border:0; border-radius:20px; overflow:hidden; }
+    .modal-product-image { width:100%; aspect-ratio:1/1; object-fit:cover; background:#edf2f5; }
+    @media (max-width:575.98px) {
+      .hero { border-radius:0 0 22px 22px; }
+      .hero h1 { font-size:2.35rem; }
+      .toolbar { padding:14px; }
+      .product-body { padding:13px; }
+      .product-title { font-size:.92rem; }
+      .product-description { font-size:.8rem; }
+      .product-price { font-size:1.03rem; }
+      .whatsapp-float { right:14px; bottom:14px; width:54px; height:54px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top border-bottom">
+    <div class="container py-2">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <span class="brand-mark">DP</span>
+        <span class="brand-name">DON<span>PERCHA</span><small class="d-block text-secondary fw-semibold" style="font-size:.62rem;letter-spacing:1.8px">TODO EN VIDRIO Y ALUMINIO</small></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+          <a class="nav-link fw-semibold" href="#catalogo">Catálogo</a>
+          <a class="nav-link fw-semibold" href="#nosotros">Nosotros</a>
+          <a class="btn btn-dp px-3 ms-lg-2" href="#contacto"><i class="bi bi-chat-dots me-1"></i> Contactar</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero py-5 py-lg-6">
+    <div class="container py-lg-4">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <div class="eyebrow mb-3">Catálogo digital · DonPercha</div>
+          <h1 class="display-3 mb-3">Encuentra lo que<br class="d-none d-md-block"> necesitas.</h1>
+          <p class="fs-6 fs-lg-5 mb-4">Explora nuestros productos, revisa sus características y solicita una cotización directamente por WhatsApp.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="hero-chip rounded-pill px-3 py-2 small"><i class="bi bi-patch-check me-1"></i Calidad y confianza</span>
+            <span class="hero-chip rounded-pill px-3 py-2 small"><i class="bi bi-truck me-1"></i> Atención personalizada</span>
+          </div>
+        </div>
+        <div class="col-lg-4 d-none d-lg-flex justify-content-end">
+          <div class="text-end">
+            <i class="bi bi-grid-3x3-gap display-1 opacity-50"></i>
+            <div class="fw-bold fs-5 mt-2">Todo en un solo lugar</div>
+            <div class="small opacity-75">Productos · Accesorios · Soluciones</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container catalog-shell pb-5">
+    <section class="toolbar mb-4" aria-label="Buscar y filtrar productos">
+      <div class="row g-3 align-items-center">
+        <div class="col-lg-6">
+          <label for="searchInput" class="visually-hidden">Buscar productos</label>
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input id="searchInput" type="search" class="form-control" placeholder="Buscar producto, código o característica...">
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <select id="sortSelect" class="form-select" aria-label="Ordenar productos">
+            <option value="featured">Ordenar: destacados</option>
+            <option value="name">Nombre: A–Z</option>
+            <option value="price-low">Precio: menor a mayor</option>
+            <option value="price-high">Precio: mayor a menor</option>
+          </select>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="text-secondary small"><span id="resultCount" class="fw-bold text-dark">0</span> productos disponibles</div>
+          <button class="btn btn-link p-0 small text-decoration-none" id="clearFilters">Limpiar filtros</button>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-2 mt-3" id="categoryFilters">
+        <button class="filter-btn active" data-category="all">Todos</button>
+        <button class="filter-btn" data-category="herrajes">Herrajes</button>
+        <button class="filter-btn" data-category="vidrio">Vidrio</button>
+        <button class="filter-btn" data-category="aluminio">Aluminio</button>
+        <button class="filter-btn" data-category="accesorios">Accesorios</button>
+      </div>
+    </section>
+
+    <section id="catalogo">
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <div>
+          <div class="product-category mb-1">Nuestros productos</div>
+          <h2 class="section-heading h3 mb-0">Catálogo de productos</h2>
+        </div>
+        <span class="text-secondary small d-none d-sm-inline">Imágenes referenciales</span>
+      </div>
+      <div class="row g-3 g-md-4" id="productGrid" aria-live="polite"></div>
+      <div id="emptyState" class="empty-state text-center d-none mt-3">
+        <i class="bi bi-search display-5 text-secondary"></i>
+        <h3 class="h5 fw-bold mt-3">No encontramos productos</h3>
+        <p class="text-secondary mb-3">Prueba con otra búsqueda o selecciona una categoría diferente.</p>
+        <button class="btn btn-dp px-4" id="resetSearch">Ver todo el catálogo</button>
+      </div>
+    </section>
+
+    <section id="nosotros" class="mt-5 pt-3">
+      <div class="row g-3">
+        <div class="col-md-4"><div class="benefit d-flex gap-3"><div class="benefit-icon flex-shrink-0"><i class="bi bi-award"></i></div><div><h3 class="h6 fw-bold mb-1">Calidad</h3><p class="small text-secondary mb-0">Productos seleccionados para ofrecer soluciones confiables.</p></div></div></div>
+        <div class="col-md-4"><div class="benefit d-flex gap-3"><div class="benefit-icon flex-shrink-0"><i class="bi bi-tools"></i></div><div><h3 class="h6 fw-bold mb-1">Experiencia</h3><p class="small text-secondary mb-0">Asesoría para tus proyectos de vidrio y aluminio.</p></div></div></div>
+        <div class="col-md-4"><div class="benefit d-flex gap-3"><div class="benefit-icon flex-shrink-0"><i class="bi bi-whatsapp"></i></div><div><h3 class="h6 fw-bold mb-1">Atención directa</h3><p class="small text-secondary mb-0">Consulta disponibilidad y precios con nuestro equipo.</p></div></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contacto" class="py-4 mt-3">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+      <div><div class="fw-bold fs-5 text-white">DONPERCHA</div><div class="small">Todo en vidrio y aluminio · La Troncal, Ecuador</div></div>
+      <div class="small">¿Necesitas ayuda? <a href="#" id="footerWhatsapp" class="fw-bold">Escríbenos por WhatsApp <i class="bi bi-arrow-up-right"></i></a></div>
+      <div class="small opacity-50">© <span id="year"></span> DonPercha. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="#" id="floatingWhatsapp" aria-label="Contactar por WhatsApp"><i class="bi bi-whatsapp"></i></a>
+
+  <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-md-6"><img id="modalImage" class="modal-product-image" src="" alt=""></div>
+            <div class="col-md-6 p-4 p-lg-5 d-flex flex-column">
+              <div class="product-category mb-2" id="modalCategory"></div>
+              <h2 class="h3 fw-bold" id="modalTitle"></h2>
+              <p class="text-secondary" id="modalDescription"></p>
+              <div class="fs-4 fw-bold mb-4" id="modalPrice"></div>
+              <a href="#" id="modalWhatsapp" class="btn btn-dp mt-auto"><i class="bi bi-whatsapp me-2"></i>Consultar este producto</a>
+              <button class="btn btn-link text-secondary mt-2" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // CONFIGURA AQUÍ el número de WhatsApp: código de país + número, sin + ni espacios.
+    const WHATSAPP_NUMBER = "593XXXXXXXXX";
+
+    // Sustituye las imágenes por archivos cuadrados de 500 x 500 px en assets/productos/.
+    // Cambia nombre, descripción, categoría, precio e imagen según tu inventario real.
+    const products = [
+      { id: 1, name: "Cerrojo eléctrico", code: "HER-001", category: "herrajes", categoryLabel: "Herrajes", description: "Solución de cierre para puertas y accesos.", price: 22.00, image: "assets/productos/cerrojo-electrico.jpg", tag: "Popular" },
+      { id: 2, name: "Juego de haladeras", code: "ACC-002", category: "accesorios", categoryLabel: "Accesorios", description: "Accesorios funcionales para puertas y muebles.", price: null, image: "assets/productos/haladeras.jpg", tag: "" },
+      { id: 3, name: "Rodamiento para ventana", code: "HER-003", category: "herrajes", categoryLabel: "Herrajes", description: "Repuesto para un desplazamiento suave y seguro.", price: null, image: "assets/productos/rodamiento.jpg", tag: "" },
+      { id: 4, name: "Vidrio transparente 3 mm", code: "VID-004", category: "vidrio", categoryLabel: "Vidrio", description: "Vidrio para aplicaciones y proyectos diversos.", price: null, image: "assets/productos/vidrio-3mm.jpg", tag: "" },
+      { id: 5, name: "Perfil de aluminio", code: "ALU-005", category: "aluminio", categoryLabel: "Aluminio", description: "Perfiles para fabricación de ventanas y puertas.", price: null, image: "assets/productos/perfil-aluminio.jpg", tag: "Línea aluminio" },
+      { id: 6, name: "Chapa para puerta", code: "HER-006", category: "herrajes", categoryLabel: "Herrajes", description: "Cerradura para instalaciones de uso cotidiano.", price: null, image: "assets/productos/chapa-puerta.jpg", tag: "" },
+      { id: 7, name: "Espejo", code: "VID-007", category: "vidrio", categoryLabel: "Vidrio", description: "Corte a medida para baños, hogares y comercios.", price: null, image: "assets/productos/espejo.jpg", tag: "" },
+      { id: 8, name: "Accesorios para baño", code: "ACC-008", category: "accesorios", categoryLabel: "Accesorios", description: "Complementos para mamparas y puertas de baño.", price: null, image: "assets/productos/accesorios-bano.jpg", tag: "" }
+    ];
+
+    const grid = document.getElementById("productGrid");
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect = document.getElementById("sortSelect");
+    const resultCount = document.getElementById("resultCount");
+    const emptyState = document.getElementById("emptyState");
+    let activeCategory = "all";
+
+    function money(value) {
+      return value == null ? "Consultar precio" : new Intl.NumberFormat("es-EC", { style: "currency", currency: "USD" }).format(value);
+    }
+    function whatsappUrl(message) {
+      const number = WHATSAPP_NUMBER.replace(/\D/g, "");
+      return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+    }
+    function imageFallback(img) {
+      img.onerror = null;
+      img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500"><rect width="500" height="500" fill="#eaf1f5"/><g fill="#8da4b2" text-anchor="middle" font-family="Arial"><text x="250" y="230" font-size="76">DP</text><text x="250" y="285" font-size="23">Imagen del producto</text><text x="250" y="320" font-size="16">500 × 500 px</text></g></svg>`
+      );
+    }
+    function productCard(p) {
+      const col = document.createElement("div");
+      col.className = "col-6 col-md-4 col-xl-3";
+      col.innerHTML = `
+        <article class="product-card">
+          <div class="image-wrap">
+            ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
+            <img class="product-image" src="${p.image}" alt="${p.name}" loading="lazy" onerror="imageFallback(this)">
+          </div>
+          <div class="product-body">
+            <div class="product-category mb-2">${p.categoryLabel}</div>
+            <h3 class="product-title mb-2">${p.name}</h3>
+            <p class="product-description mb-3">${p.description}</p>
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+              <span class="product-price">${money(p.price)}</span>
+              <span class="text-secondary small">${p.code}</span>
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-dp btn-sm" data-action="detail" data-id="${p.id}">Ver producto</button>
+              <a class="btn btn-outline-dp btn-sm" target="_blank" rel="noopener" href="${whatsappUrl(`Hola, deseo información sobre ${p.name} (${p.code}).`)}"><i class="bi bi-whatsapp me-1"></i> Consultar</a>
+            </div>
+          </div>
+        </article>`;
+      return col;
+    }
+    function renderProducts() {
+      const term = searchInput.value.trim().toLocaleLowerCase("es");
+      let filtered = products.filter(p => {
+        const matchesCategory = activeCategory === "all" || p.category === activeCategory;
+        const searchable = `${p.name} ${p.code} ${p.description} ${p.categoryLabel}`.toLocaleLowerCase("es");
+        return matchesCategory && searchable.includes(term);
+      });
+      const sort = sortSelect.value;
+      if (sort === "name") filtered.sort((a,b) => a.name.localeCompare(b.name, "es"));
+      if (sort === "price-low") filtered.sort((a,b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+      if (sort === "price-high") filtered.sort((a,b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+      grid.replaceChildren(...filtered.map(productCard));
+      resultCount.textContent = filtered.length;
+      emptyState.classList.toggle("d-none", filtered.length !== 0);
+    }
+    function showProduct(id) {
+      const p = products.find(item => item.id === Number(id));
+      if (!p) return;
+      const img = document.getElementById("modalImage");
+      img.src = p.image; img.alt = p.name; img.onerror = function(){ imageFallback(this); };
+      document.getElementById("modalCategory").textContent = p.categoryLabel;
+      document.getElementById("modalTitle").textContent = p.name;
+      document.getElementById("modalDescription").textContent = `${p.description} Código: ${p.code}.`;
+      document.getElementById("modalPrice").textContent = money(p.price);
+      document.getElementById("modalWhatsapp").href = whatsappUrl(`Hola, deseo información sobre ${p.name} (${p.code}). ¿Me pueden ayudar?`);
+      bootstrap.Modal.getOrCreateInstance(document.getElementById("productModal")).show();
+    }
+    document.getElementById("categoryFilters").addEventListener("click", e => {
+      const btn = e.target.closest("[data-category]");
+      if (!btn) return;
+      activeCategory = btn.dataset.category;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+      renderProducts();
+    });
+    grid.addEventListener("click", e => {
+      const btn = e.target.closest('[data-action="detail"]');
+      if (btn) showProduct(btn.dataset.id);
+    });
+    searchInput.addEventListener("input", renderProducts);
+    sortSelect.addEventListener("change", renderProducts);
+    function resetFilters() {
+      activeCategory = "all"; searchInput.value = ""; sortSelect.value = "featured";
+      document.querySelectorAll(".filter-btn").forEach((b,i) => b.classList.toggle("active", i === 0));
+      renderProducts();
+    }
+    document.getElementById("clearFilters").addEventListener("click", resetFilters);
+    document.getElementById("resetSearch").addEventListener("click", resetFilters);
+
+    ["floatingWhatsapp", "footerWhatsapp"].forEach(id => {
+      const el = document.getElementById(id);
+      el.href = whatsappUrl("Hola, deseo información sobre los productos de DonPercha.");
+      el.target = "_blank"; el.rel = "noopener";
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderProducts();
+  </script>
+</body>
+</html>

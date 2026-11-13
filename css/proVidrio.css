@@ -1,24 +1,326 @@
+
+/* =====================================================
+   PRO VIDRIOS - ESTILOS GENERALES
+===================================================== */
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background: #f8fafc;
+    color: #1e293b;
 }
+
 .container {
     display: flex;
+    align-items: flex-start;
     gap: 20px;
+    flex-wrap: wrap;
 }
+
+/* =====================================================
+   FORMULARIO
+===================================================== */
+
 .form-container {
     width: 330px;
+    min-width: 280px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    box-sizing: border-box;
 }
-.canvas-container {
-    border: 1px solid #000;
-    position: relative;
+
+.form-container h2 {
+    margin-top: 0;
+    font-size: 20px;
 }
-canvas {
-    border: 1px solid #000;
+
+.form-container label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
+
+.form-container input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container button {
+    padding: 9px 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background: #1d4ed8;
+}
+
+.form-container button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* =====================================================
+   NUMERO MANUAL DE VIDRIO
+===================================================== */
+
+.campo-numero-vidrio {
+    margin-bottom: 12px;
+}
+
+.campo-numero-vidrio label {
+    margin-top: 0;
+}
+
+.campo-numero-vidrio small {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+/* =====================================================
+   BOTONES MODIFICAR Y ELIMINAR
+===================================================== */
+
 .botones {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.botones button {
+    flex: 1;
+}
+
+/* =====================================================
+   LISTA DE VIDRIOS
+===================================================== */
+
+.vidrio-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.vidrio-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.vidrio-item:hover {
+    border-color: #2563eb;
+}
+
+.vidrio-item.seleccionado {
+    background: #dbeafe;
+    border: 2px solid #2563eb;
+}
+
+.vidrio-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 12px;
+}
+
+.vidrio-info strong {
+    font-size: 14px;
+}
+
+.vidrio-info small {
+    color: #64748b;
+}
+
+.vidrio-acciones {
+    display: flex;
+    gap: 4px;
+}
+
+.vidrio-acciones button {
+    margin: 0;
+    padding: 6px 8px;
+    font-size: 11px;
+    background: #475569;
+}
+
+.vidrio-acciones button:hover {
+    background: #334155;
+}
+
+/* =====================================================
+   CONTROLES DE PLANCHAS
+===================================================== */
+
+.controles-planchas {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.cabecera-planchas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cabecera-planchas strong {
+    font-size: 15px;
+}
+
+.cabecera-planchas button {
+    margin: 0;
+    padding: 8px 12px;
+    background: #15803d;
+    font-size: 12px;
+}
+
+.cabecera-planchas button:hover {
+    background: #166534;
+}
+
+.pestanas-planchas {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
     margin-top: 10px;
 }
-.vidrio-inputs {
+
+.pestana-plancha {
+    padding: 8px 12px;
+    margin: 0;
+    background: #e2e8f0;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.pestana-plancha:hover {
+    background: #cbd5e1;
+}
+
+.pestana-plancha.activa {
+    background: #2563eb;
+    color: #fff;
+    border-color: #1d4ed8;
+}
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+.canvas-container {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    overflow: auto;
+}
+
+canvas {
+    display: block;
+    width: 660px;
+    height: 428px;
+    max-width: none;
+    background: #f8fafc;
+    border: 1px solid #111827;
+    cursor: grab;
+    touch-action: none;
+}
+
+canvas:active {
+    cursor: grabbing;
+}
+
+/* =====================================================
+   RESUMEN DE PLANCHA
+===================================================== */
+
+.resumen-vidrio {
+    margin-top: 12px;
+    padding: 12px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.lista-sobrantes {
     margin-top: 10px;
+    padding: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 6px;
+    color: #166534;
+    font-size: 13px;
+}
+
+.lista-sobrantes ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
+
+.lista-sobrantes li {
+    margin-bottom: 5px;
+}
+
+/* =====================================================
+   RESUMEN GENERAL DEL PEDIDO
+===================================================== */
+
+.resumen-general {
+    margin-top: 18px;
+    padding: 12px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+    body {
+        margin: 10px;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .form-container {
+        width: 100%;
+    }
+
+    .canvas-container {
+        max-width: 100%;
+    }
 }
